@@ -1,0 +1,6 @@
+[1026/103444:ERROR:renderer_main.cc(200)] Running without renderer sandbox
+[1026/103507:WARNING:raw_channel_win.cc(529)] WriteFile: 管道正關閉中。 (0xE8)
+[1026/103507:WARNING:channel.cc(558)] Failed to send message to ack remove remote endpoint (local ID 2147483649, remote ID 3)
+[1026/103507:WARNING:channel.cc(322)] RawChannel write error
+[1026/103508:WARNING:pref_notifier_impl.cc(27)] pref observer found at shutdown plugins.allow_outdated
+[1026/103508:WARNING:pref_notifier_impl.cc(27)] pref observer found at shutdown plugins.always_authorize

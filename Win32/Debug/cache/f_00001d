@@ -1,0 +1,2143 @@
+var time_s_sec = 60;
+var time_s_sec_now = 10;
+var chkstop_open;
+var chkstop_open_now;
+/*20150826*/
+/*first*/
+
+/*千分號*/
+var thousandComma = function(number)
+{
+ var num = number.toString();
+ var pattern = /(-?\d+)(\d{3})/;
+  
+ while(pattern.test(num))
+ {
+  num = num.replace(pattern, "$1,$2");
+  
+ }
+ return num;
+ 
+}
+/*檢查game是否關閉或日期已過*/
+function get_game_or_stop(a)
+{
+	//var ss = parent.window.frames.jQuery("#movemore_ss").load("./controler/stopbet.php",{"gameid" : a});
+  var result;
+	
+	jQuery.ajax({
+			type: 'POST',
+			url: './stopbet.php',
+			data: 'gameid=' + a,	
+			error: function(xhr) {
+				//alert('網路忙線中，請稍後再試!r64');
+				result = false;
+			},
+			async: false,
+			//beforeSend:function(response)
+		  //{		  
+		  //},
+			success: function(response) {
+				//if(response=='1')
+				 //{
+		   //parent.window.top.location.href='../list.php';
+		     result = response;
+				 //}
+				 
+			 }
+	});
+	
+  return result;
+  
+}
+
+function reloadtoploginform(){
+   
+   jQuery.ajax({
+			type: 'POST',
+			url: './controler/login.php',
+			data: 'reload=reload',
+			error: function(xhr) {
+				//alert('網路忙線中，請稍後再試!session95');
+			},
+			beforeSend:function(response)
+		  {
+		  	jQuery('#wa99_login').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	//jQuery('#openallsel2' + c +'').html('<font size="6px">..loading....</font>');
+		  },
+			success: function(response) {
+			 jQuery('#wa99_login').html(response);
+			 }
+		   });
+		  
+}
+
+function moveorder_sec(a7,a6,a55,a4,a3,a2,an5,b,c,d,f,g,h,j,k)
+{ 
+	//alert('Y');
+     //window.top.location.href='#';
+     //window.location.href='#';
+     //window.scrollTo(50,50);
+     //jQuery('#order_info a').css({'color':'#FFFFFF'});
+     //jQuery('#rule_anu a').css({'color':'#000000'});
+     //jQuery('#rule_anu').css({'background-image':'url(./images/666/orderinfo_w.png)'});
+	   //jQuery('#order_info').css({'background-image':'url(./images/666/orderinfo.png)'});
+     //parent.window.jQuery('html, body').stop().animate({scrollTop: 0}, 1000);
+     //jQuery('html, body').stop().animate({scrollTop: 0}, 1000);
+  //parent.top.document.getElementById("rightmenu").height=document.body.scrollHeight-100;
+ //jQuery("#movemore_ss").dialog("open");
+ //document.getElementById("movemore_ss").style.visibility="visible";
+ //jQuery("#movemore_ss").dialog("open");
+ 
+ //parent.window.top.jQuery("#movemore_ss").dialog("open");
+ 
+ //document.getElementById("flotLayer").style.visibility="visible";
+
+ //jQuery("#movemore_ss").attr("style", "visibility: visible");
+	/*
+	jQuery.ajax({
+			type: 'GET',
+			url: 'order.php',
+			data: 'handicap=' + a7 + '&inplay=' + a6 + '&selectname=' + a5 + '&time=' + a4 + '&markettype=' + a3 + '&gameid=' + a2 + '&gamename=' + a + '&marketid=' + b + '&selectid=' + c + '&marketname=' + d + '&rate=' + f + '&momey=' + g + '&type=' + h + '&betfairori=' + j + '&percent=' + k,	
+			//data: 'handicap=' + a7 + '&inplay=' + a6 + '&selectname=' + a5,
+			error: function(xhr) {
+				alert('網路忙線中，請稍後再試!r64');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	//jQuery("#movemore_ss").dialog("open");
+		  	//jQuery("#movemore_ss").html('..loading....');
+		  },
+			success: function(response) {
+				//alert(response);
+		     parent.window.frames.leftmenu.jQuery('#order').html(response); 			   
+			 //parent.window.frames.leftmenu.jQuery('#simple-box').html(response);
+			 //parent.window.top.jQuery("#order_ss").html(response);
+			 jQuery("#movemore_ss").dialog("open");
+			 jQuery("#movemore_ss").html(response);
+			 
+			 
+			 //simplesreload_sec(category,color,ipage,bettype,se2,'','',straightNowPage,name2);
+			 }
+		    });
+  */
+  
+//jQuery("#more_ss").dialog("open");
+ //jQuery('#order').attr("disabled", false);
+ //jQuery('#order').html('');
+ //jQuery('#order').show();
+ //jQuery('#rule').attr("style", "display:none");
+ //alert(b);
+ if(h=="B")
+    {
+    	var checkrisk=(g*(f-1)*(1-k)).toFixed(2);    	
+    }
+   else
+   	{
+   		var checkrisk=g;
+   	}                                              
+    
+    a = an5.replace(/\+/g," ");
+    a5 = a55.replace(/\+/g," ");
+    
+    var totals='<table style="font-family:微軟正黑體;" width=100% border="0" align="left" cellpadding="0" cellspacing="0" class="secwin">';
+	  if(h=="B")
+	  {
+	  totals=totals+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(a)+'</strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(d)+'&nbsp;&nbsp;&nbsp;'+decodeURIComponent(a5)+'<strong></strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B><td>获利</td><td>赔率</td><td>可赢点数</td><td>风险值</td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom><td><input type="text" name="Bet" type="text" id="Bet" maxlength="7" size=7 onkeyup=checkorder(this.value) value=></td><td><font color=#FF0000>'+f+'</font></td><td><span id="ordertotal"></span></td><td><span id="orderrisk"></span></td></tr>';
+  	//totals=totals+'</table>';
+	  }
+	  else
+	  {
+	  totals=totals+'<tr class=trmid_B><td colspan=3 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(a)+'</strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B><td colspan=3 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(d)+'&nbsp;&nbsp;&nbsp;'+decodeURIComponent(a5)+'<strong></strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B><td>金額</td><td>获利%</td><td>投注获利</td></tr>';
+	  totals=totals+'<tr class=trmid_RR_bottom><td><input type="text" name="Bet" type="text" id="Bet" maxlength="7" size=7 onkeyup=checkorder(this.value) value=></td><td><font color=#FF0000>'+((f*100).toFixed(2))+'%</font></td><td><span id="orderrisk"></span></td></tr>';
+  	//totals=totals+'</table>';
+	  
+	  }
+	  
+	  //totals=totals+'<tr class=new-order_m_m><td colspan=2><input type=button value=确定交易 onclick="getorder()"></td><td colspan=2><input type=button value=取消交易 onclick="closeorder()"></td></tr>';
+	  totals=totals+'<tr class=new-order_m_m><td colspan=4><input type=button value=确定交易 onclick="getorder()"><input type=button value=取消交易 onclick="closeorder()"><input type=button value=進入预约下注 onclick=appointorder('+a7+','+a6+',"'+a55+'","'+a4+'",'+a3+','+a2+',"'+an5+'","'+b+'",'+c+',"'+d+'",'+f+','+g+',"'+h+'",'+j+','+k+')></td></tr>';
+	  totals=totals+'<tr class=new-order_m_m><td colspan=4 style="padding-left:130px;">*可赢点数为扣除市场%后的结果</td></tr></table>';
+    totals=totals+'<input type="hidden" name="MarketId" id="MarketId" value="'+b+'">';
+    totals=totals+'<input type="hidden" name="gameid" id="gameid" value="'+a2+'">';
+    totals=totals+'<input type="hidden" name="SelectionId" id="SelectionId" value="'+c+'">';
+    totals=totals+'<input type="hidden" name="BetType" id="BetType" value="'+h+'">';
+    totals=totals+'<input type="hidden" name="handicap" id="handicap" value="'+a7+'">';
+    totals=totals+'<input type="hidden" name="gamename" id="gamename" value="'+decodeURI(a)+'">';
+    totals=totals+'<input type="hidden" name="marketname_st" id="marketname_st" value="'+decodeURI(d)+'">';
+    totals=totals+'<input type="hidden" name="Rate" id="Rate" value="'+f+'">';
+    totals=totals+'<input type="hidden" name="percent" id="percent" value="'+k+'">';
+    totals=totals+'<input type="hidden" name="betfairori" id="betfairori" value="'+j+'">';
+    totals=totals+'<input type="hidden" name="markettype" id="markettype" value="'+decodeURI(a3)+'">';
+    totals=totals+'<input type="hidden" name="time" id="time" value="'+decodeURI(a4)+'">';
+    totals=totals+'<input type="hidden" name="selectname" id="selectname" value="'+decodeURI(a5)+'">';
+    totals=totals+'<input type="hidden" name="inplay" id="inplay" value="'+a6+'">';
+	  
+	  //jQuery('#movemore_ss', window.parent.document).html(totals);
+	  //jQuery('#movemore_ss', window.parent.document).html(totals);
+	    //parent.window.frames.leftmenu.jQuery('#order').html(totals);
+	    jQuery('#order').html(totals);
+	  //jQuery("#flotLayer").html(totals);
+	    //parent.window.top.location.href='index.php?option=com_simpless&Itemid=101#top';
+}
+
+/*20150629*/
+function delleftgame()
+{
+	window.parent.document.getElementById('leftmenu').contentWindow.helloWorld();
+	
+}
+
+function checktime5_5(a3,a2,a1,a,d,f,h)
+  {
+   
+   
+   time_s_sec = time_s_sec - 1;
+	 
+			  if(time_s_sec < 0)
+			  	 {
+        openallselwill_sec(a3,a2,a1,a,d,f,h);
+        clearInterval(chkstop_open);
+        window.clearInterval(chkstop_open);
+        time_s_sec=60;
+        //return;
+			  	 }
+			  else
+			  	 {
+			//jQuery('#muorder_sec').html('等待時間'+time_s_sec+'秒');  	
+			  	 }
+			 
+      if(time_s_sec < 10)
+      {
+   parent.window.frames.rightmenu.jQuery('#reloadpic_pic').html('<div style="font-size:14px;position:relative;height:30px;top:5px;">更新<br>0'+time_s_sec+'</div>');
+      }
+      else
+      {
+   parent.window.frames.rightmenu.jQuery('#reloadpic_pic').html('<div style="font-size:14px;position:relative;height:30px;top:5px;">更新<br>'+time_s_sec+'</div>');
+      }
+  chkstop_open=setTimeout("checktime5_5('"+a3+"','"+a2+"','"+a1+"','"+a+"','"+d+"','"+f+"','"+h+"')", 1000);
+  }
+ 
+  
+function checktime5(a3,a2,a1,a,d,f,h)
+  {
+   parent.window.frames.rightmenu.jQuery('#reloadpic_pic').css({"opacity":"0.5","filter":"Alpha(Opacity=50, Style=0)"});
+	 parent.window.frames.rightmenu.jQuery('#reloadpic_pic').attr('onclick','');
+   parent.window.frames.rightmenu.jQuery('#reloadbutton').attr('disabled','disabled');
+   
+   if(chkstop_open)
+  	 {
+   clearInterval(chkstop_open);
+   time_s_sec = 60;
+   checktime5_5(a3,a2,a1,a,d,f,h);
+  	 }
+   openallselwill_sec(a3,a2,a1,a,d,f,h);
+  }
+  
+
+/*first*/
+function moveorder(a7,a6,a55,a4,a3,a2,an5,b,c,d,f,g,h,j,k,m,sel)
+{ 
+	var ss = get_game_or_stop(a2);
+	
+	if(ss=='0')
+	  {
+	parent.window.top.location.href='../list.php';
+	return;
+	  }
+	  
+	/*
+	jQuery("#movemore_ss").load("feeds.php", {limit: 25}, function(){
+     alert("The last 25 entries in the feed have been loaded");
+  });
+	*/
+	
+	//alert(sel);
+     //window.top.location.href='#';
+     //window.location.href='#';
+     //window.scrollTo(50,50);
+     //jQuery('#order_info a').css({'color':'#FFFFFF'});
+     //jQuery('#rule_anu a').css({'color':'#000000'});
+     //jQuery('#rule_anu').css({'background-image':'url(./images/666/orderinfo_w.png)'});
+	   //jQuery('#order_info').css({'background-image':'url(./images/666/orderinfo.png)'});
+     //parent.window.jQuery('html, body').stop().animate({scrollTop: 0}, 1000);
+     //jQuery('html, body').stop().animate({scrollTop: 0}, 1000);
+     
+      //parent.window.frames.leftmenu.jQuery('html, body').stop().animate({scrollTop: 0}, 1000);
+      //parent.window.frames.leftmenu.jQuery('html, body').stop().animate({scrollTop: 0}, 1000);
+  //parent.top.document.getElementById("rightmenu").height=document.body.scrollHeight-100;
+ //jQuery("#movemore_ss").dialog("open");
+ //document.getElementById("movemore_ss").style.visibility="visible";
+ //jQuery("#movemore_ss").dialog("open");
+ 
+ //parent.window.top.jQuery("#movemore_ss").dialog("open");
+ 
+ //document.getElementById("flotLayer").style.visibility="visible";
+
+ //jQuery("#movemore_ss").attr("style", "visibility: visible");
+	/*
+	jQuery.ajax({
+			type: 'GET',
+			url: 'order.php',
+			data: 'handicap=' + a7 + '&inplay=' + a6 + '&selectname=' + a5 + '&time=' + a4 + '&markettype=' + a3 + '&gameid=' + a2 + '&gamename=' + a + '&marketid=' + b + '&selectid=' + c + '&marketname=' + d + '&rate=' + f + '&momey=' + g + '&type=' + h + '&betfairori=' + j + '&percent=' + k,	
+			//data: 'handicap=' + a7 + '&inplay=' + a6 + '&selectname=' + a5,
+			error: function(xhr) {
+				alert('網路忙線中，請稍後再試!r64');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	//jQuery("#movemore_ss").dialog("open");
+		  	//jQuery("#movemore_ss").html('..loading....');
+		  },
+			success: function(response) {
+				//alert(response);
+		     parent.window.frames.leftmenu.jQuery('#order').html(response); 			   
+			 //parent.window.frames.leftmenu.jQuery('#simple-box').html(response);
+			 //parent.window.top.jQuery("#order_ss").html(response);
+			 jQuery("#movemore_ss").dialog("open");
+			 jQuery("#movemore_ss").html(response);
+			 
+			 
+			 //simplesreload_sec(category,color,ipage,bettype,se2,'','',straightNowPage,name2);
+			 }
+		    });
+  */
+  
+//jQuery("#more_ss").dialog("open");
+ jQuery('#order').attr("disabled", false);
+ jQuery('#order').html('');
+ jQuery('#order').show();
+ jQuery('#rule').attr("style", "display:none");
+ var mname = jQuery('#mname').val();
+ var gc12 = jQuery('#gc12').val();
+ var balance_money = parent.window.frames.jQuery('#balance_money_chk').val();
+ var qumoney = parent.window.frames.jQuery('#qumoney').val();
+ if(qumoney=='') qumoney='1000,5000,10000'; 
+ var money_qui = qumoney.split(',');
+ //alert(qumoney);
+ if(money_qui[0]=='') money_qui[0]='1000';
+ if(money_qui[1]=='') money_qui[1]='5000';
+ if(money_qui[2]=='') money_qui[2]='10000';
+ //alert(balance_money);
+ 
+ if(h=="B")
+    {
+    	var checkrisk=(g*(f-1)*(1-k)).toFixed(2);    	
+    }
+   else
+   	{
+   		var checkrisk=g;
+   	}                                              
+    
+    a = an5.replace(/\+/g," ");
+    a5 = a55.replace(/\+/g," ");
+    
+    var quikyss = '1234';
+    var totals='<table style="font-family:微軟正黑體;" width=100% border="0" align="left" cellpadding="0" cellspacing="0" class="secwin">';
+	  
+	  var kk = (k*100);
+	  
+	  var commision = '<span style=font-size:14px;padding-right:10px;float:right;padding-top:2px;>手续费：'+kk+'%</span>';
+
+	  
+	  if(h=="B")
+	  {
+	  totals=totals+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="padding-left:30%">&nbsp;'+decodeURIComponent(a)+'</strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="padding-left:30%">&nbsp;'+decodeURIComponent(d)+'&nbsp;&nbsp;&nbsp;'+decodeURIComponent(a5)+'<strong></strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B><td>获利</td><td>赔率</td><td>可赢点数</td><td>风险值</td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom><td><input type="text" name="Bet" type="text" id="Bet" maxlength="10" size=7 onkeyup=checkorder(this.value) value=></td><td><font color=#ffffff>'+f+'</font></td><td><span id="ordertotal"></span></td><td><span id="orderrisk" style="color:#FFFFFF;"></span></td></tr>';
+  	//totals=totals+'</table>';
+	  }
+	  else
+	  {
+    var res = a4.split("+");
+    var ress_f = decodeURIComponent(res[0]).split("-");
+    var ress = decodeURIComponent(res[1]).split(":");
+        
+    var resname = decodeURIComponent(a).split("v");;
+	　var retotal = ress_f[1]+'／'+ress_f[2]+'&nbsp;'+decodeURIComponent(mname)+'<br>'+ress[0]+'：'+ress[1]+'&nbsp;'+resname[0]+'(主)&nbsp;v&nbsp;'+resname[1];
+			   	  
+	  totals=totals+'<tr class=trmid_B><td colspan=3 height="30" align="left" valign="middle" style="background:url(./img/win_title_bg.png);background-size:480px 60px;padding-top:20px;font-weight:bolder;font-size:18px;text-align:center;color:#ffffff;height:40px;">下单资讯</strong></td></tr>';	  
+	  totals=totals+'<tr><td><table style=width:95%;margin-left:10px;>';
+	  
+	  //totals=totals+'<tr class=trmid_B><td colspan=3 height="30" align="left" valign="middle" style="padding-top:10px;font-weight:bolder;height:20px;font-size:18px;background-color:#244b8c;padding-left:0%;color:#ffffff;">&nbsp;<font color=#ecc427>'+decodeURIComponent(mname)+'</font>&nbsp;<span style="color:#ffffff;font-size:24px;">｜</span>&nbsp;'+retotal+'<br>'+decodeURIComponent(a)+commision+'</strong></td></tr>';
+	  //totals=totals+'<tr><td colspan=3 width="95%"><table width="100%"><tr style="margin-top:5px;" class=trmid_B><td width=20% style="padding-top:10px;"><div style="background-image:url(./img/tag_bg.png);background-repeat:no-repeat;background-size:90px 40px;vertical-align:middle;padding-left:5px;padding-top:10px;height:40px;">'+decodeURIComponent(mname)+'</div></td>';
+	  //totals=totals+'<td width=55% style="vertical-align:middle;line-height:25px;">'+retotal+'</td>';
+	  //totals=totals+'<td width=25% style="vertical-align:middle;">'+commision+'</td></tr></table></tr>';
+	  
+    totals=totals+'<tr class=trmid_B><td colspan=3 height="30" align="left" valign="middle" style="font-family:微軟正黑體;padding-top:10px;padding-left:30px;color:#ffffff;font-size:18px;width:100%;background-image:url(./img/table_title_bg.png);background-size:cover;line-height:25px;">'+retotal+'</td></tr>';
+	  totals=totals+'<tr><td colspan=4 width=95% style="background-color:#000a3d;vertical-align:middle;height:40px;padding-left:15px;">';
+	  totals=totals+'您正在&nbsp;<font color=#FF0000><span class=objection>反对</span></font>&nbsp;这场赛事结果为&nbsp;<font color=#FFBB00>'+decodeURIComponent(d)+'&nbsp;&nbsp;&nbsp;<b>'+decodeURIComponent(a5)+'</font></b>'+commision+'</td></tr>';
+	  totals=totals+'<tr class=trmid_B_B><td width="30%">金额</td><td>获利%</td><td>预估获利</td></tr>';
+	  totals=totals+'<tr class=trmid_RR_bottom><td><input style="color:#ffffff;text-align:center;height:31px;" type="text" name="Bet" type="text" id="Bet" maxlength="10" size=7 onkeyup=checkorder(this.value) value=></td><td><font color=#ed1122>'+((f*100).toFixed(2))+'%</font></td><td><span id="orderrisk" style="color:#000000;"></span></td></tr>';
+	  totals=totals+'</table></td></tr>';
+	  }
+	  
+	  //totals=totals+'<tr class=new-order_m_m><td colspan=2><input type=button value=确定交易 onclick="getorder()"></td><td colspan=2><input type=button value=取消交易 onclick="closeorder()"></td></tr>';
+	  //totals=totals+'<tr class=new-order_m_m><td colspan=4><input class=sure type=button value=确定交易 onclick="getorder()"><input class=cancel type=button value=取消交易 onclick="closeorder()">';
+	  totals=totals+'<tr syle="height:30px;"><td colspan=4 width=100% style="padding-top:10px;padding-left:10px;">';
+	  
+	  totals=totals+'<div id="arthur"><button type="submit" onclick=checkorder_add('+money_qui[0]+') class="btn_money_order">'+money_qui[0]+'</button>&nbsp;&nbsp;&nbsp;';
+	  totals=totals+'<button type="submit" onclick=checkorder_add('+money_qui[1]+') class="btn_money_order">'+money_qui[1]+'</button>&nbsp;&nbsp;&nbsp;';
+	  totals=totals+'<button type="submit" onclick=checkorder_add('+money_qui[2]+') class="btn_money_order">'+money_qui[2]+'</button></div>';
+	  
+	  totals=totals+'</td></tr>';
+	  totals=totals+'<tr syle="height:30px;"><td colspan=4 width=100% style="padding-top:10px;padding-left:10px;">';
+	  totals=totals+'<button type="submit" onclick=checkorder_add('+balance_money+',"all") class="btn_money_order">全部</button>&nbsp;&nbsp;&nbsp;';
+	  totals=totals+'<button type="submit" onclick=userinfo_setup('+quikyss+') class="btn_money_order_setp"><b>设定</b></button>';
+	  totals=totals+'</td></tr>';
+	  
+	  //totals=totals+'<tr class=new-order_m_m><td colspan=4 width=100% style="padding-left:80px;"><div style="position:absolute;color:#ffffff;left:260px;padding-top:10px;" onclick="closeorder()">取消交易</div><div style="position:absolute;color:#ffffff;left:120px;padding-top:10px;" onclick="getorder()">确定交易</div><img id=orders src=./img/btn_forget_normal.png onclick="getorder()">&nbsp;<img src=./img/btn_logout_normal.png onclick="closeorder()"></td>';
+	  totals=totals+'<tr class=new-order_m_m><td colspan=4 width=100% style="font-family:微軟正黑體;padding-left:90px;">';
+	  totals=totals+'<button type="submit" onclick=getorder() class="btn_refill_order">确定交易</button>';
+	  totals=totals+'<button type="submit" onclick=closeorder() class="btn_cancel_order">取消交易</button></td></tr>';
+	  
+	  //totals=totals+'<tr><td colspan=4 width=95% style="background-color:#000a3d;vertical-align:middle;height:40px;padding-left:15px;">';
+	  //totals=totals+'您正在&nbsp;<font color=#FF0000><span class=objection>反对</span></font>&nbsp;这场赛事结果为&nbsp;'+decodeURIComponent(d)+'&nbsp;&nbsp;&nbsp;<b>'+decodeURIComponent(a5)+'</b>';
+	  totals=totals+'</table>';
+	 
+	  
+	  //totals=totals+'<tr class=new-order_m_m><td colspan=4 width=100% style="padding-left:80px;"><div style="position:absolute;color:#ffffff;left:260px;padding-top:10px;" onclick="closeorder()">取消交易</div><div style="position:absolute;color:#ffffff;left:120px;padding-top:10px;" onclick="getorder()">确定交易</div><img id=orders src=./img/btn_forget_normal.png onclick="getorder()">&nbsp;<img src=./img/btn_logout_normal.png onclick="closeorder()"></td>';
+	  totals=totals+'<input type="hidden" name="MarketId" id="MarketId" value="'+b+'">';
+    totals=totals+'<input type="hidden" name="gameid" id="gameid" value="'+a2+'">';
+    totals=totals+'<input type="hidden" name="SelectionId" id="SelectionId" value="'+c+'">';
+    totals=totals+'<input type="hidden" name="BetType" id="BetType" value="'+h+'">';
+    totals=totals+'<input type="hidden" name="handicap" id="handicap" value="'+a7+'">';
+    totals=totals+'<input type="hidden" name="gamename" id="gamename" value="'+decodeURI(a)+'">';
+    totals=totals+'<input type="hidden" name="marketname_st" id="marketname_st" value="'+decodeURI(d)+'">';
+    totals=totals+'<input type="hidden" name="Rate" id="Rate" value="'+f+'">';
+    totals=totals+'<input type="hidden" name="percent" id="percent" value="'+k+'">';
+    totals=totals+'<input type="hidden" name="betfairori" id="betfairori" value="'+j+'">';
+    totals=totals+'<input type="hidden" name="markettype" id="markettype" value="'+decodeURI(a3)+'">';
+    totals=totals+'<input type="hidden" name="time" id="time" value="'+decodeURI(a4)+'">';
+    totals=totals+'<input type="hidden" name="selectname" id="selectname" value="'+decodeURI(a5)+'">';
+    totals=totals+'<input type="hidden" name="inplay" id="inplay" value="'+a6+'">';
+    totals=totals+'<input type="hidden" name="selectrateL1" id="selectrateL1" value="'+m+'">';
+    totals=totals+'<input type="hidden" name="category" id="category" value="'+decodeURI(mname)+'">';
+    totals=totals+'<input type="hidden" name="gc12" id="gc12" value="'+decodeURI(gc12)+'">';
+    totals=totals+'<input type="hidden" name="sel" id="sel" value="'+decodeURI(sel)+'">';
+    
+  
+	  //alert(b);
+	  //jQuery('#movemore_ss', window.parent.document).html(totals);
+	  //jQuery('#movemore_ss', window.parent.document).html(totals);
+	    //parent.window.frames.leftmenu.jQuery('#order').html(totals);
+	    //jQuery('#order').html(totals);
+	    parent.window.frames.jQuery("#movemore_ss").dialog("open");
+	    parent.window.frames.jQuery('#movemore_ss').html(totals);
+	  //jQuery("#flotLayer").html(totals);
+	    //parent.window.top.location.href='index.php?option=com_simpless&Itemid=101#top';
+    //alert(a);
+}
+
+/*
+function moveorder_test(a7,a6,a55,a4,a3,a2,an5,b,c,d,f,g,h,j,k)
+{  
+
+ jQuery('#order').attr("disabled", false);
+ jQuery('#order').html('');
+ jQuery('#order').show();
+ jQuery('#rule').attr("style", "display:none");
+ if(h=="B")
+    {
+    	var checkrisk=(g*(f-1)*(1-k)).toFixed(2);    	
+    }
+   else
+   	{
+   		var checkrisk=g;
+   	}                                              
+    
+    a = an5.replace(/\+/g," ");
+    a5 = a55.replace(/\+/g," ");
+    
+    var totals='<table width=100% border="0" align="left" cellpadding="0" cellspacing="0" class="secwin">';
+	  if(h=="B")
+	  {
+	  totals=totals+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(a)+'</strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(d)+'&nbsp;&nbsp;&nbsp;'+decodeURIComponent(a5)+'<strong></strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B><td>注额</td><td>赔率</td><td>可赢点数</td><td>风险值</td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom><td><input type="text" name="Bet" type="text" id="Bet" maxlength="7" size=7 onkeyup=checkorder(this.value) value=></td><td><input type="text" name="Rate" size=7 type="text" id="Rate"></td><td><span id="ordertotal"></span></td><td><span id="orderrisk"></span></td></tr>';
+
+	  }
+	  else
+	  {
+	  totals=totals+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(a)+'</strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(d)+'&nbsp;&nbsp;&nbsp;'+decodeURIComponent(a5)+'<strong></strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B><td>注额</td><td>赔率</td><td>可赢点数</td><td>风险值</td></tr>';
+	  totals=totals+'<tr class=trmid_RR_bottom><td><input type="text" name="Bet" type="text" id="Bet" maxlength="7" size=7 onkeyup=checkorder(this.value) value=></td><td><input type="text" name="Rate" size=7 type="text" id="Rate"></td><td><span id="ordertotal"></span></td><td><span id="orderrisk"></span></td></tr>';
+	  
+	  }
+	  
+	  totals=totals+'<tr class=new-order_m_m><td colspan=4><input type=button value=确定交易 onclick="getorder()"><input type=button value=取消交易 onclick="closeorder()"><input type=button value=進入预约下注 onclick=appointorder('+a7+','+a6+',"'+a55+'","'+a4+'",'+a3+','+a2+',"'+an5+'",'+b+','+c+',"'+d+'",'+f+','+g+',"'+h+'",'+j+','+k+')></td></tr>';
+	  totals=totals+'<tr class=new-order_m_m><td colspan=4 style="padding-left:130px;">*可赢点数为扣除市场%后的结果</td></tr></table>';
+    totals=totals+'<input type="hidden" name="MarketId" id="MarketId" value="'+b+'">';
+    totals=totals+'<input type="hidden" name="gameid" id="gameid" value="'+a2+'">';
+    totals=totals+'<input type="hidden" name="SelectionId" id="SelectionId" value="'+c+'">';
+    totals=totals+'<input type="hidden" name="BetType" id="BetType" value="'+h+'">';
+    totals=totals+'<input type="hidden" name="handicap" id="handicap" value="'+a7+'">';
+    totals=totals+'<input type="hidden" name="gamename" id="gamename" value="'+decodeURI(a)+'">';
+    totals=totals+'<input type="hidden" name="marketname_st" id="marketname_st" value="'+decodeURI(d)+'">';
+    //totals=totals+'<input type="hidden" name="Rate" id="Rate" value="'+f+'">';
+    totals=totals+'<input type="hidden" name="percent" id="percent" value="'+k+'">';
+    totals=totals+'<input type="hidden" name="betfairori" id="betfairori" value="'+j+'">';
+    totals=totals+'<input type="hidden" name="markettype" id="markettype" value="'+decodeURI(a3)+'">';
+    totals=totals+'<input type="hidden" name="time" id="time" value="'+decodeURI(a4)+'">';
+    totals=totals+'<input type="hidden" name="selectname" id="selectname" value="'+decodeURI(a5)+'">';
+    totals=totals+'<input type="hidden" name="inplay" id="inplay" value="'+a6+'">';	  
+	    jQuery('#order').html(totals);
+	  
+}
+*/
+
+function getDateRange(rangetime,a) 
+{
+/*
+var month_range=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+*/
+var monthr=new Array(12);
+    monthr[01]="January";
+    monthr[02]="February";
+    monthr[03]="March";
+    monthr[04]="April";
+    monthr[05]="May";
+    monthr[06]="June";
+    monthr[07]="July";
+    monthr[08]="August";
+    monthr[09]="September";
+    monthr[10]="October";
+    monthr[11]="November";
+    monthr[12]="December";
+
+    var res = rangetime.split("+");
+    var res_left = res[0].split("-");
+    var res_endrange = res[1].split(":");
+    var d=new Date();
+    //var f = res[0]+'T'+res[1];
+    
+    var f = monthr[parseInt(res_left[1])]+" "+res_left[2]+", "+res_left[0]+" "+res[1];
+    //alert(monthr[parseInt(res_left[1])]);
+    var endrange = res[0]+" "+res_endrange[0]+":"+res_endrange[1];
+    //alert(monthr[res_left[1]]);
+    //var ggyy = new Date(f);
+    //var ggyy = new Date("2014-12-20T03:30");
+    //var ggyy = new Date("December 30, 2014 17:13:00");
+    var ggyy = new Date(f);
+    //var ss = (ggyy.getTime() + 1000*60*60*3); //加3小時
+    var ss = ggyy.getTime();
+    //alert(ggyy);
+    /*
+    var range1 = new Date(ss);
+    var stringrange = range1.getFullYear() + "-" +
+                     (range1.getMonth() + 1)+ "-" +
+                     range1.getDate() + " " +
+                     gettow((range1.getHours() + 3)) + ":" +
+                     gettow(range1.getUTCMinutes());
+    */
+    
+    var localTime = d.getTime();
+    var localOffset=d.getTimezoneOffset()*60000; //°¾²¾ªº²@¬뽊    
+    var utc = localTime + localOffset; //utc§YGMT
+    var offset =8; //¥xŗ¥[8
+    var Taiwan = utc + (3600000*offset); 
+    //var theDates = new Date(Taiwan);
+    var theDates = new Date(d.getFullYear(),d.getMonth(),d.getDate(),d.getHours(),'00');
+    
+    var rangess = [];
+    while(theDates.getTime() < ss) {
+    	
+        var string = theDates.getFullYear() + "-" +
+                     (theDates.getMonth() + 1)+ "-" +
+                     theDates.getDate() + " " +
+                     gettow(theDates.getHours()) + ":" +
+                     gettow(theDates.getUTCMinutes());
+        rangess.push(string);
+        //theDate.setTime(theDate.getTime() + 86400000);//1 hours     
+        theDates.setTime(theDates.getTime() + 1000*60*15);//30分鐘 
+        
+        }
+
+
+var sst='<select name=f_date'+a+' id=f_date'+a+'>';
+for(i=0; i < rangess.length; i++)
+{
+//document.writeln(getDateRange()[i] + "<br>");
+sst=sst+'<option value="'+rangess[i]+'">'+rangess[i]+'</option>';
+}
+sst=sst+'<option value="'+endrange+'">'+endrange+'</option>';
+sst=sst+'</select>';
+return sst;
+
+}
+
+function gettow(a)
+{
+	if(a < 10)
+	 {
+	 	 return '0'+a;
+	 }
+	else
+	 {
+	 	 return a;
+	 }
+}
+
+function appointorder(a7,a6,a55,a4,a3,a2,an5,b,c,d,f,g,h,j,k)
+{  
+ 	//alert(a4);						      
+ //jQuery('#order').attr("disabled", false);
+ /*
+   var a7 = jQuery('#handicap').val();
+   var a6 = jQuery('#inplay').val();
+   var a5 = jQuery('#selectname').val();
+   var a4 = jQuery('#time').val();
+   var a3 = jQuery('#markettype').val();
+   var a2 = jQuery('#gameid').val();
+   var a = jQuery('#gamename').val();
+   var b = jQuery('#MarketId').val();
+   var c = jQuery('#SelectionId').val();
+   var d = jQuery('#marketname_st').val();
+   var f = jQuery('#Rate').val();
+   var g = jQuery('#inplaygg').val();
+   var h = jQuery('#BetType').val();
+   var j = jQuery('#betfairori').val();
+   var k = jQuery('#percent').val();
+ */
+
+
+ jQuery('#order').html('');
+ jQuery('#order').show();
+ jQuery('#rule').attr("style", "display:none");
+ if(h=="B")
+    {
+    	var checkrisk=(g*(f-1)*(1-k)).toFixed(2);    	
+    }
+   else
+   	{
+   		var checkrisk=g;
+   	}                                              
+    
+    a = an5.replace(/\+/g," ");
+    a5 = a55.replace(/\+/g," ");
+    
+    var Today=new Date();
+    
+    var totals='<table width=100% border="0" align="left" cellpadding="0" cellspacing="0" class="secwin">';
+	  if(h=="B")
+	  {
+	  totals=totals+'<tr class=trmid_B><td colspan=5 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(a)+'</strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B><td colspan=5 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(d)+'&nbsp;&nbsp;&nbsp;'+decodeURIComponent(a5)+'<strong></strong></td></tr>';
+	  /*
+	  totals=totals+'<tr class=trmid_B_B><td colspan=2>注额</td><td colspan=3>赔率區間</td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom><td colspan=2><input type="text" name="Bet" type="text" id="Bet" maxlength="7" size=8 value=></td><td colspan=3><input type="text" name="range1" type="text" id="range1" maxlength="4" style="width:30px;" size=8 onkeyup=checkorder_appoint(this.value) value=>-<input type="text" name="range2" type="text" id="range2" maxlength="4" style="width:30px;" size=8 onkeyup=checkorder_appoint_max(this.value) value=></td></tr>';
+    totals=totals+'<tr class=trmid_B_B><td></td><td colspan=2>可赢点数</td><td colspan=2>风险值</td></tr>';
+    totals=totals+'<tr class=trmid_B_B_bottom><td colspan=1>低:</td><td colspan=2><span id="ordertotal"></span></td><td colspan=2><span id="orderrisk"></span></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom><td colspan=1>高:</td><td colspan=2><span id="ordertotal_2"></span></td><td colspan=2><span id="orderrisk_2"></span></td></tr>';
+	  
+	  totals=totals+'<tr class=trmid_B_B_bottom_appoint><td valign="middle" colspan=4>有效時間:<img src="./images/calendar.png" id="f_btn1" ><input type="text" size="15" id="f_date1" name="f_date1"></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom_appoint><td valign="middle" colspan=4>有效時間:<img src="./images/calendar.png" id="f_btn2" ><input type="text" size="15" id="f_date2" name="f_date2"></td></tr>';
+	  */
+	  
+	  totals=totals+'<tr class=trmid_B_B><td colspan=1>注额</td><td style="background-color:#a5cffe;" colspan=3><input type="text" name="Bet" type="text" id="Bet" maxlength="7" size=8 value=></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom><td style="background-color:#FFFFFF;" colspan=1>赔率区间</td><td style="background-color:#a5cffe;" colspan=3><input type="text" name="range1" type="text" id="range1" maxlength="4" style="width:30px;" size=8 onkeyup=checkorder_appoint(this.value) value=>-<input type="text" name="range2" type="text" id="range2" maxlength="4" style="width:30px;" size=8 onkeyup=checkorder_appoint_max(this.value) value=></td></tr>';
+    
+    //totals=totals+'<tr class=trmid_B_B_bottom_appoint><td style="background-color:#FFFFFF;" valign="middle" colspan=1>开始时间:</td><td style="background-color:#a5cffe;" colspan=3><input type="text" size="15" id="f_date1" name="f_date1" value="' + Today.getFullYear() + '-' + (Today.getMonth()+1) + '-'+addnumber(Today.getDate())+' '+Today.getHours() +':'+addnumber(Today.getUTCMinutes())+'"><img src="./images/calendar.png" id="f_btn1" ></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom_appoint><td style="background-color:#FFFFFF;" valign="middle" colspan=1>开始时间:</td><td style="background-color:#a5cffe;" colspan=3>'+getDateRange(unescape(a4),1)+'</td></tr>'
+	  //totals=totals+'<tr class=trmid_B_B_bottom_appoint><td style="background-color:#FFFFFF;" valign="middle" colspan=1>结束时间:</td><td style="background-color:#a5cffe;" colspan=3><input type="text" size="15" id="f_date2" name="f_date2" value="' + Today.getFullYear() + '-' + (Today.getMonth()+1) + '-'+(addnumber(Today.getDate()+1))+' '+Today.getHours() +':'+addnumber(Today.getUTCMinutes())+'"><img src="./images/calendar.png" id="f_btn2" ></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom_appoint><td style="background-color:#FFFFFF;" valign="middle" colspan=1>结束时间:</td><td style="background-color:#a5cffe;" colspan=3>'+getDateRange(unescape(a4),2)+'</td></tr>';
+	  
+	  totals=totals+'<tr class=trmid_B_B><td style="background-color:#FFFFFF;" colspan=1>可赢点数</td><td style="background-color:#a5cffe;" colspan=3><span id="ordertotal"></span>&nbsp;--&nbsp;<span id="ordertotal_2"></span></td></tr>';
+    totals=totals+'<tr class=trmid_B_B_bottom><td style="background-color:#FFFFFF;" colspan=1>风险值</td><td style="background-color:#a5cffe;" colspan=3><span id="orderrisk"></span>&nbsp;--&nbsp;<span id="orderrisk_2"></span></td></tr>';
+	  
+	  }
+	  else
+	  {
+	 
+	  totals=totals+'<tr class=trmid_B><td colspan=5 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(a)+'</strong></td></tr>';
+	  totals=totals+'<tr class=trmid_B><td colspan=5 height="30" align="left" valign="middle" style="padding-left:25px;">&nbsp;'+decodeURIComponent(d)+'&nbsp;&nbsp;&nbsp;'+decodeURIComponent(a5)+'<strong></strong></td></tr>';
+	  /*
+	  totals=totals+'<tr class=trmid_B_B><td colspan=2>注额</td><td colspan=3>赔率区间</td></tr>';
+	  totals=totals+'<tr class=trmid_RR_bottom><td colspan=2><input type="text" name="Bet" type="text" id="Bet" maxlength="7" size=8 value=></td><td colspan=3><input type="text" name="range1" type="text" id="range1" maxlength="4" style="width:30px;" size=8 onkeyup=checkorder_appoint(this.value) value=>-<input type="text" name="range2" type="text" id="range2" maxlength="4" style="width:30px;" size=8 onkeyup=checkorder_appoint_max(this.value) value=></td></tr>';
+    totals=totals+'<tr class=trmid_B_B><td></td><td colspan=2>可赢点数</td><td colspan=2>风险值</td></tr>';
+    totals=totals+'<tr class=trmid_RR_bottom><td>低:</td><td colspan=2><span id="ordertotal"></span></td><td colspan=2><span id="orderrisk"></span></td></tr>';	  
+	  totals=totals+'<tr class=trmid_RR_bottom><td>高:</td><td colspan=2><span id="ordertotal_2"></span></td><td colspan=2><span id="orderrisk_2"></span></td></tr>';	
+	  
+	  totals=totals+'<tr class=trmid_B_B_bottom_appoint_r><td valign="middle" colspan=4>有效时间:<img src="./images/calendar.png" id="f_btn1" ><input type="text" size="15" id="f_date1" name="f_date1"></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom_appoint_r><td valign="middle" colspan=4>有效时间:<img src="./images/calendar.png" id="f_btn2" ><input type="text" size="15" id="f_date2" name="f_date2"></td></tr>';
+	    */
+	   
+	  totals=totals+'<tr class=trmid_B_B><td colspan=1>注额</td><td style="background-color:#ffbaba;" colspan=3><input type="text" name="Bet" type="text" id="Bet" maxlength="7" size=8 value=></td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom><td style="background-color:#FFFFFF;" colspan=1>赔率区间</td><td style="background-color:#ffbaba;" colspan=3><input type="text" name="range1" type="text" id="range1" maxlength="4" style="width:30px;" size=8 onkeyup=checkorder_appoint(this.value) value=>-<input type="text" name="range2" type="text" id="range2" maxlength="4" style="width:30px;" size=8 onkeyup=checkorder_appoint_max(this.value) value=></td></tr>';
+    totals=totals+'<tr class=trmid_B_B_bottom_appoint_r><td style="background-color:#FFFFFF;color:#000000;" valign="middle" colspan=1>开始时间:</td><td style="background-color:#ffbaba;" colspan=3>'+getDateRange(unescape(a4),1)+'</td></tr>';
+	  totals=totals+'<tr class=trmid_B_B_bottom_appoint_r><td style="background-color:#FFFFFF;color:#000000;" valign="middle" colspan=1>结束时间:</td><td style="background-color:#ffbaba;" colspan=3>'+getDateRange(unescape(a4),2)+'</td></tr>';
+	  
+    totals=totals+'<tr class=trmid_B_B><td style="background-color:#FFFFFF;" colspan=1>可赢点数</td><td style="background-color:#ffbaba;" colspan=3><span id="ordertotal"></span>&nbsp;--&nbsp;<span id="ordertotal_2"></span></td></tr>';
+    totals=totals+'<tr class=trmid_B_B_bottom><td style="background-color:#FFFFFF;" colspan=1>风险值</td><td style="background-color:#ffbaba;" colspan=3><span id="orderrisk"></span>&nbsp;--&nbsp;<span id="orderrisk_2"></span></td></tr>';
+	   
+	  }
+	  
+	  totals=totals+'<script type="text/javascript">';
+		totals=totals+'Calendar.setup({inputField : "f_date1",trigger    : "f_btn1",onSelect   : function() { this.hide() },showTime   : 24,dateFormat : "%Y-%m-%d %H:%M"})';
+		totals=totals+'</script>';
+		totals=totals+'<script type="text/javascript">';
+		totals=totals+'Calendar.setup({inputField : "f_date2",trigger    : "f_btn2",onSelect   : function() { this.hide() },showTime   : 24,dateFormat : "%Y-%m-%d %H:%M"})';
+		totals=totals+'</script>';
+	  
+	  totals=totals+'<tr class=new-order_m_m><td colspan=4><input type=button value=确定交易 onclick="getorder_appoint()"><input type=button value=取消交易 onclick="closeorder()"><input type=button value=回到一般下注 onclick=moveorder('+a7+','+a6+',"'+a55+'","'+a4+'",'+a3+','+a2+',"'+an5+'",'+b+','+c+',"'+d+'",'+f+','+g+',"'+h+'",'+j+','+k+')></td></tr>';
+	  totals=totals+'<tr class=new-order_m_m><td colspan=4 style="padding-left:130px;">*可赢点数为扣除市场%后的结果</td></tr></table>';
+    
+    totals=totals+'<input type="hidden" name="MarketId" id="MarketId" value="'+b+'">';
+    totals=totals+'<input type="hidden" name="gameid" id="gameid" value="'+a2+'">';
+    totals=totals+'<input type="hidden" name="SelectionId" id="SelectionId" value="'+c+'">';
+    totals=totals+'<input type="hidden" name="BetType" id="BetType" value="'+h+'">';
+    totals=totals+'<input type="hidden" name="handicap" id="handicap" value="'+a7+'">';
+    totals=totals+'<input type="hidden" name="gamename" id="gamename" value="'+decodeURI(a)+'">';
+    totals=totals+'<input type="hidden" name="marketname_st" id="marketname_st" value="'+decodeURI(d)+'">';
+    totals=totals+'<input type="hidden" name="Rate" id="Rate" value="'+f+'">';
+    totals=totals+'<input type="hidden" name="percent" id="percent" value="'+k+'">';
+    totals=totals+'<input type="hidden" name="betfairori" id="betfairori" value="'+j+'">';
+    totals=totals+'<input type="hidden" name="markettype" id="markettype" value="'+decodeURI(a3)+'">';
+    totals=totals+'<input type="hidden" name="time" id="time" value="'+decodeURI(a4)+'">';
+    totals=totals+'<input type="hidden" name="selectname" id="selectname" value="'+decodeURI(a5)+'">';
+    totals=totals+'<input type="hidden" name="inplay" id="inplay" value="'+a6+'">';
+	  
+	  //jQuery('#movemore_ss', window.parent.document).html(totals);
+	  //jQuery('#movemore_ss', window.parent.document).html(totals);
+	    //parent.window.frames.leftmenu.jQuery('#order').html(totals);
+	    jQuery('#order').html(totals);
+	  //jQuery("#flotLayer").html(totals);
+	  //parent.window.top.location.href='index.php?option=com_simpless&Itemid=101#top';
+}
+
+var chkstop;
+var chkstop_now;
+var openallselval = null;
+var openallselval_left = null;
+
+/*走第*/
+function openallsel_now(a2,a1,a,c,d,f,h)
+{
+	   //alert(a2);
+  	 var s = window.open('newopen_now.php?reloadt=now&mid='+a2+'&name='+encodeURI(a1)+'&gameid='+a+'&gc12='+d+'&gamename='+encodeURI(f)+'&time='+encodeURI(h)+'','A_M');
+	       s.focus();
+  
+  /*
+	    jQuery.ajax({
+			type: 'GET',
+			url: './openallsel.php',
+			data: 'mid=' + a2 + '&name=' + a1 + '&gameid=' + a + '&gc12=' + d + '&gamename=' +f + '&time=' + h,
+			error: function(xhr) {
+				alert('網路忙線中，請稍後再試!r85');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	  jQuery('#openallsel1' + c +'').html('<font size="6px">..loading....</font>');
+		  },
+			success: function(response) {
+				  
+				//alert(response);			 
+			 jQuery('#openallsel1' + c +'').html(response);
+			 //jQuery('#openallsel' + c + '').dialog("open");
+			 //jQuery('#openallsel' + c + '').toggle();
+			 openallselnow(a2,a1,a,c,d,f,h);
+			 }
+		    });
+	*/ 
+//openallselwill(a2,a1,a,c,d,f,h);
+}
+
+/*走第每10秒reload*/
+function openallselnow(a2,a1,a,c,d,f,h)
+{
+  openallselval = jQuery('#cssmenu ul > li > ul > li.has-sub.open > ul').css('display');
+	    
+	    if(openallselval=="block" && chkstop_now)
+	    {
+	    	alert('Y');
+	    	//clearInterval(chkstop);
+	    	//window.clearInterval(chkstop);
+	    	//return;
+	    }
+	    else
+	    {
+        //alert('N');
+           if(chkstop_now)
+            {
+            	clearen();
+            	return;
+            }
+           else
+           	{
+           		//alert('N');
+           	}
+        
+	    }
+	    
+    
+    jQuery.ajax({
+			type: 'GET',
+			url: './openallsel_t.php',
+			data: 'mid=' + a2 + '&name=' + a1 + '&gameid=' + a + '&gc12=' + d + '&gamename=' +f + '&time=' + h,
+			error: function(xhr) {
+				//alert('網路忙線中，請稍後再試!r85');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	//jQuery('#openallsel2' + c +'').html('<font size="6px">..loading....</font>');
+		  },
+			success: function(response) {
+				//alert(response);			 
+			 jQuery('#openallsel1' + c +'').html(response);
+			 //jQuery('#openallsel' + c + '').dialog("open");
+			 //jQuery('#openallsel' + c + '').toggle();
+			 }
+		});
+
+    
+chkstop_now=setTimeout("openallselnow('"+a2+"','"+a1+"','"+a+"','"+c+"','"+d+"','"+f+"','"+h+"')", 1000*10);
+}
+
+/*走第每10秒reload*/
+function openallselnow_time10(a2,a1,a,d,f,h)
+{
+ 
+    jQuery.ajax({
+			type: 'GET',
+			url: './reloadfiles/openallsel_t.php',
+			data: 'mid=' + a2 + '&name=' + a1 + '&gameid=' + a + '&gc12=' + d + '&gamename=' +f + '&time=' + h,
+			error: function(xhr) {
+				//alert('網路忙線中，請稍後再試!r85');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	//jQuery('#openallsel2' + c +'').html('<font size="6px">..loading....</font>');
+		  	//jQuery('#reloadpic_pic').html('<font size="2px">loading</font>');
+		  },
+			success: function(response) {
+				//alert(response);
+				  jQuery('#reloadpic').show();
+			 jQuery('#openallsel2').html(response);
+			 //jQuery('#openallsel' + c + '').dialog("open");
+			 //jQuery('#openallsel' + c + '').toggle();
+			 }
+		});
+
+}
+
+/*走第每10秒reload*/
+function openallselnow_sec(a2,a1,a,d,f,h)
+{
+ 
+    jQuery.ajax({
+			type: 'GET',
+			url: './reloadfiles/openallsel_t.php',
+			data: 'mid=' + a2 + '&name=' + a1 + '&gameid=' + a + '&gc12=' + d + '&gamename=' +f + '&time=' + h,
+			error: function(xhr) {
+				//alert('網路忙線中，請稍後再試!r85');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	//jQuery('#openallsel2' + c +'').html('<font size="6px">..loading....</font>');
+		  },
+			success: function(response) {
+				//alert(response);			 
+			 jQuery('#openallsel2').html(response);
+			 //jQuery('#openallsel' + c + '').dialog("open");
+			 //jQuery('#openallsel' + c + '').toggle();
+			 }
+		});
+
+    
+//chkstop_now=setTimeout("openallselnow_sec('"+a2+"','"+a1+"','"+a+"','"+d+"','"+f+"','"+h+"')", 1000*10);
+}
+
+var xhrPool = [];
+var shr;
+/*今日賽事*/
+function openallsel(a2,a1,a,c,d,f,h)
+{
+	  
+  	 //alert(a2);
+  	 var s = window.open('newopen.php?mid='+a2+'&name='+encodeURI(a1)+'&gameid='+a+'&gc12='+d+'&gamename='+encodeURI(f)+'&time='+encodeURI(h)+'','A_M');
+	       s.focus();
+	  //window.open('./index3.php?option=com_newopenmove&Itemid=101&markname='+encodeURI(a)+'&gameid='+b+'&category='+c+'&markid='+d+'&Categoryid='+f+'','A_M');   
+	    
+	    /*
+	    jQuery.ajax({
+			type: 'GET',
+			url: './openallsel.php',
+			data: 'mid=' + a2 + '&name=' + a1 + '&gameid=' + a + '&gc12=' + d + '&gamename=' +f + '&time=' + h,
+			error: function(xhr) {
+				alert('網路忙線中，請稍後再試!r85');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	  jQuery('#openallsel2' + c +'').html('<font size="6px">..loading....</font>');
+		  },
+			success: function(response) {
+				//alert(response);			 
+			 jQuery('#openallsel2' + c +'').html(response);
+			 //jQuery('#openallsel' + c + '').dialog("open");
+			 //jQuery('#openallsel' + c + '').toggle();
+			 openallselwill(a2,a1,a,c,d,f,h,j);
+			 }
+		    });
+		  */
+}
+
+/*今日賽事每60秒reload*/
+function openallselwill(a3,a2,a1,a,d,f,h)
+{	
+
+     var left_md = new Date().getTime();
+     
+     jQuery.ajax({
+			type: 'GET',
+			  url: './controler/re_orderchg.php',
+			data: 'who='+a3+'&mid=' + a2 + '&name=' + f + '&gameid=' + a + '&gc12=' + d + '&gamename=' +a1 + '&time=' + h,
+			error: function(xhr) {
+				//alert('網路忙線中，請稍後再試!!r800');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	//jQuery('#openallsel2').html('<font size="6px">..loading....</font>');
+		  	//jQuery('#reloadpic_pic').html('<font size="2px">loading</font>');
+		  	  //jQuery('#reloadpic').css({"opacity":"0.5","filter":"Alpha(Opacity=50, Style=0)"});
+		  	  //jQuery('#reloadpic').attr('onclick','');
+		  },
+			success: function(response) {
+			var su_md = new Date().getTime();
+			//var suc = parseInt(su_md / 100);
+			//var sec = parseInt(left_md / 100);
+				//alert(response);	 
+			parent.window.frames.rightmenu.jQuery('#openallsel2').html(response);
+			 }
+		    });
+     
+}
+
+/*今日賽事每60秒reload頁面開啟完畢後執行*/
+function newopenallsel(a2,a1,a,d,f,h)
+{	    
+    
+    jQuery.ajax({
+			type: 'GET',
+			url: './components/com_rightsimpless/php/simplereload.php',
+			data: 'mid=' + a2 + '&name=' + a1 + '&gameid=' + a + '&gc12=' + d + '&gamename=' +f + '&time=' + h,
+			error: function(xhr) {
+				//alert('網路忙線中，請稍後再試!!!r85');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	//jQuery('#openallsel2' + c +'').html('<font size="6px">..loading....</font>');
+		  },
+			success: function(response) {
+				//alert(response);			 
+			 jQuery('#openallsel2').html(response);
+			 //jQuery('#openallsel' + c + '').dialog("open");
+			 //jQuery('#openallsel' + c + '').toggle();
+			 }
+		    });
+    
+//chkstop=setTimeout("openallselwill('"+a2+"','"+a1+"','"+a+"','"+d+"','"+f+"','"+h+"')", 1000*60);
+  //chkstop=setTimeout("newopenallsel('"+a2+"','"+a1+"','"+a+"','"+d+"','"+f+"','"+h+"')", 1000*60);
+//var interval = setInterval(shr, 1000*60);
+}
+
+
+/*今日賽事每60秒reload*/
+function openallselwill_sec(a3,a2,a1,a,d,f,h)
+{	
+
+     var left_md = new Date().getTime();
+     
+     jQuery.ajax({
+			type: 'GET',
+			//url: './components/com_rightsimpless/php/simplereload.php',
+			  url: 'placebet.php',
+			data: 'who='+a3+'&mid=' + a2 + '&name=' + a1 + '&gameid=' + a + '&gc12=' + d + '&gamename=' +f + '&time=' + h,
+			error: function(xhr) {
+				//swal({title: "错误讯息",text: "网路忙线中，请稍后再试!错误代码:968",confirmButtonText: "确定",customClass: 'twitter'});
+				//change_alert('#FF0000','Wrong','网路异常，请稍后!','#FFFFFF');
+				//alert('網路忙線中，請稍後再試!!r444');
+			},
+			beforeSend:function(response)
+		  {
+		  	//jQuery('#openallsel' + c + d +'').html('..loading....');
+		  	//jQuery('#openallsel2' + c +'').css({'height':'1000px'});
+		  	//jQuery('#openallsel2').html('<font size="6px">..loading....</font>');
+		  	//jQuery('#reloadpic_pic').html('<font size="2px">loading</font>');
+		  	  //jQuery('#reloadpic').css({"opacity":"0.5","filter":"Alpha(Opacity=50, Style=0)"});
+		  	  //jQuery('#reloadpic').attr('onclick','');
+		  },
+			success: function(response) {
+			var su_md = new Date().getTime();
+			//var suc = parseInt(su_md / 100);
+			//var sec = parseInt(left_md / 100);
+				//alert(response);	 
+			jQuery('#openallsel2').html(response);
+			 }
+		    });
+     
+}
+
+function openallsel_simgle(a3,a2,a1,a,d,f,h)
+{
+	 var left_md = new Date().getTime();
+	 jQuery('#order').attr("disabled", false);
+   jQuery('#order').html('<table><tr><td></td></tr></table><table style="width:100%;"><tr><td style="width:100%;height:150px;text-align:center;color:#000000;">请点击右边庄家鵝黃色赔率下注!</td></tr><tr></table>');
+		
+   jQuery('#order_top').attr("style", "display:none;");
+   
+	 jQuery.ajax({
+		type: 'GET',
+		url: './index2.php?option=com_newopen&Itemid=101',
+		//url: './index2.php?option=com_rightsimpless&Itemid=101',
+		//url: './components/com_rightsimpless/php/simplereload.php',
+		data: 'who='+a3+'&mid='+a2+'&name='+a1+'&gameid='+a+'&gc12='+d+'&gamename='+f+'&time='+h+'',
+		error: function(xhr) {
+			return false;
+		},
+		beforeSend:function(response)
+		  {
+		  	//jQuery('#rightAAA', window.parent.document).html('<font size=4 color=#ffffff><br>&nbsp;&nbsp;...loading...</font><img src=./images/28.gif>');
+		  	jQuery('#firstright').html('');
+		  	//parent.window.frames.rightmenu.jQuery('#openallsel2').html('<table style=height:1200px;><tr><td></td></tr><tr><td></td></tr></table>');
+		  	jQuery('#openallsel2').html('<table style=height:200px;><tr><td valign=top><font size=4 color=#000000><br>&nbsp;&nbsp;...loading...</font><img src=./images/28.gif></td></tr></table>');
+		  	
+		  	},
+		success: function(response) {
+			//alert(response);
+			 //jQuery('#rightAAA', window.parent.document).html('');
+			 var su_md = new Date().getTime();
+			var suc = parseInt(su_md / 100);
+			var sec = parseInt(left_md / 100);
+			 jQuery('#order_top').attr("style", "display:block;");
+			 jQuery('#openallsel2').html(response+'<font color=#ffffff>'+(suc - sec)+'</font>');
+       //parent.window.frames.rightmenu.jQuery('#openallsel2').css({'ckground-image':'url(./images/666/content-wrapper_bg.jpg)'});
+		}
+	
+	 });
+	 
+}
+/*釋放reload*/
+function clearen()
+{
+	            clearInterval(chkstop);
+            	window.clearInterval(chkstop);
+            	clearInterval(chkstop_now);
+            	window.clearInterval(chkstop_now);
+            	/*chkstop = '';*/
+            	
+}
+
+
+var a_add=0;
+function checkorder_add(bb,b)
+  {
+    if(b=='all')
+     {
+  var bet = '0';   	
+     }
+    else
+    	{
+  var bet = jQuery('#Bet').val();  		
+    	}
+  	var d = jQuery('#BetType').val();
+  	var c = jQuery('#Rate').val();
+  	var f = jQuery('#percent').val();  	
+  	
+  	var balance_money = parent.window.frames.jQuery('#balance_money_chk').val();
+  	
+  	if(bet=='')
+  	{
+  		bet=0;
+  	}
+  	if(c=="")
+  	{
+  		//alert("赔率空值!");
+  		swal({title: "错误讯息",text: "赔率空值!",confirmButtonText: "确定",customClass: 'twitter'});
+  		return;
+  	}
+  	var total_ss = ((a_add-0)+(bet-0)+(bb-0));
+  	
+  	if((total_ss+0) > (balance_money+0))
+  	{
+  		swal({title: "错误讯息",text: "大于可用馀额!",confirmButtonText: "确定",customClass: 'twitter'});
+  		return;
+  	}
+  	
+  	if(d=="B")
+  	 {
+  	var ss = ((a)*(1-f)*(c-1)).toFixed(2);
+    jQuery('#ordertotal').html(ss);
+    jQuery('#orderrisk').html(a);
+  	 }
+  	 else
+  	 	{
+   var ss = ((total_ss)*(c)*(1-f)).toFixed(2);
+   var hh = ((total_ss)*(1-f)).toFixed(2);
+   jQuery('#ordertotal').html(hh);
+   jQuery('#orderrisk').html(thousandComma(ss));
+   
+   jQuery('#Bet').val(parseInt(total_ss));
+  	 	}
+  	
+  }
+  
+function checkorder(bb)
+  {
+    window.clearInterval(a_add);
+    clearInterval(a_add);
+    a_add=0;
+  	var d = jQuery('#BetType').val();
+  	var c = jQuery('#Rate').val();
+  	var f = jQuery('#percent').val();
+  	
+  	
+  	//var reg = /^[0-9]+(\.)?$/;
+  	var reg = /^[0-9]*$/;
+  	//var reg = /^[0-9]+(\.[0-9]{0,0})?$/;
+  	var sre = /^[0-9]+(\.[0-9]{1,2})?$/;//小數點2位
+  	if(c=="")
+  	{
+  		swal({title: "错误讯息",text: "赔率空值!",confirmButtonText: "确定",customClass: 'twitter'});
+  		return;
+  	}
+  	if(!sre.test(bb))
+	    {
+	    	//alert('金额请勿有小数点或是其他文字');
+	    	swal({title: "错误讯息",text: "金额最多小数点2位!",confirmButtonText: "确定",customClass: 'twitter'});
+	    	return;
+	    }
+	    
+	  
+  	if(d=="B")
+  	 {
+  	var ss = ((bb)*(1-f)*(c-1)).toFixed(2);
+    jQuery('#ordertotal').html(ss);
+    jQuery('#orderrisk').html(a);
+  	 }
+  	 else
+  	 	{
+   //alert('T');
+   var ss = ((bb)*(c)*(1-f)).toFixed(2);
+   var hh = ((bb)*(1-f)).toFixed(2);
+   jQuery('#ordertotal').html(hh);
+   jQuery('#orderrisk').html(thousandComma(ss));
+
+  	 	}
+  
+  }
+
+function checkorder_appoint(a)
+  {
+  	//var ss = ((a*(b-1))*(1-c)).toFixed(2);
+  	//var ss = ((a*b)*(1-c)).toFixed(3);
+  	re = /^[0-9]+(\.)?$/;
+  	var ee = /^\d+$/;
+  	var d = jQuery('#BetType').val();
+  	var c = jQuery('#Bet').val();
+  	var f = jQuery('#percent').val();
+  	
+  	if (!ee.test(c))
+    {
+        //非正整數
+        alert("请输入正确注额");
+        return;
+    }
+  	if(!re.test(c))   
+       {    
+     alert("注额请勿有小数点或是其他文字");
+     return;
+       }
+        
+  
+  	
+  	if(d=="B")
+  	 {
+  	var ss = ((c)*(1-f)*(a-1)).toFixed(2);
+    jQuery('#ordertotal').html(ss);
+    jQuery('#orderrisk').html(c);
+  	 }
+  	 else
+  	 	{
+   var ss = ((c)*(a-1)).toFixed(2);
+   var hh = ((c)*(1-f)).toFixed(2);
+   jQuery('#ordertotal').html(hh);
+   jQuery('#orderrisk').html(ss);
+  	 	}
+  	
+  }
+
+function checkorder_appoint_max(a)
+  {
+  	//var ss = ((a*(b-1))*(1-c)).toFixed(2);
+  	//var ss = ((a*b)*(1-c)).toFixed(3);
+  	var d = jQuery('#BetType').val();
+  	var c = jQuery('#Bet').val();
+  	var f = jQuery('#percent').val();
+  	
+  	
+  	if(d=="B")
+  	 {
+  	var ss = ((c)*(1-f)*(a-1)).toFixed(2);
+    jQuery('#ordertotal_2').html(ss);
+    jQuery('#orderrisk_2').html(c);
+  	 }
+  	 else
+  	 	{
+   var ss = ((c)*(a-1)).toFixed(2);
+   var hh = ((c)*(1-f)).toFixed(2);
+   jQuery('#ordertotal_2').html(hh);
+   jQuery('#orderrisk_2').html(ss);
+  	 	}
+  	
+  } 
+  
+function getorder()
+  {
+    //alert('hh');
+  	var simple_ar = Array();
+  	var c2bet_st = new Object;
+  	var orderinfo_st = new Object;
+  	var ee = /^\d+$/;
+  	//var re = /^[0-9]+(\.)?$/;
+  	var re = /^[0-9]*$/;
+  	var MarketId = jQuery('#MarketId').val();
+  	var gameid = jQuery('#gameid').val();
+  	var SelectionId = jQuery('#SelectionId').val();
+  	var BetType = jQuery('#BetType').val();
+  	var name_st = jQuery('#name').val();
+  	var gamename = jQuery('#gamename').val();
+    var marketname = jQuery('#marketname_st').val();
+    var Rate = jQuery('#Rate').val();
+    var momey = jQuery('#momey').val();
+    var percent = jQuery('#percent').val();
+    var betfairori = jQuery('#betfairori').val();
+    var Bet = jQuery('#Bet').val();
+    var markettype = jQuery('#markettype').val();
+    var time = jQuery('#time').val();
+    var selectname = jQuery('#selectname').val();
+    var inplay = jQuery('#inplay').val();
+    var handicap = jQuery('#handicap').val();
+    var selectrateL1 = jQuery('#selectrateL1').val();
+    var gc12 = jQuery('#gc12').val();
+    var mid = jQuery('#mid').val();
+    var who = jQuery('#who').val();
+    var mname = jQuery('#mname').val();
+    var category = jQuery('#category').val();
+    var sel = jQuery('#sel').val();
+    var balance_money = parent.window.frames.jQuery('#balance_money_chk').val();
+  	var sre = /^[0-9]+(\.[0-9]{1,2})?$/;//小數點2位	
+  		
+    var ssB = ((Bet)*(1-percent)*(Rate-1)).toFixed(2);   
+    //var ss = ((Bet)*(Rate-1)).toFixed(2);
+    //var ss = ((Bet)*(Rate/100)).toFixed(2);
+    var ss = ((Bet)*(Rate)*(1-percent)).toFixed(2);
+    var hh = ((Bet)*(1-percent)).toFixed(2);
+    
+    var kk = percent*100;   
+	  var commision = '<span style=font-size:14px;padding-right:10px;float:right;padding-top:2px;>手续费：'+kk+'%</span>';
+    
+    //alert(name_st);
+    //return;
+    //var total='***投注資訊***\n[賽事]'+a+'\n[類別]'+b+'\n[選項]'+c+'\n\n***注單資訊***\n[投注注額]'+Betorder+'\n[投注賠率]'+risk_st+'\n\n你確定下注?';
+    //var total='***投注資訊***\<br>[賽事]'+a+'\<br>[類別]'+b+'\<br>[選項]'+c+'\<br>\<br>***注單資訊***\<br>[投注注額]'+Betorder+'\<br>[投注賠率]'+risk_st+'\<br>\<br>你確定下注?';
+	  //total=total+'<br><br><input type=button value=取消 id=btnclose><input type=button value=確定 id=btnTest>';
+	//alert(Betorder+':'+sid);
+	  var total='<table style="font-family:微軟正黑體;" border="0" align="left" cellpadding="0" cellspacing="0" width=100%>';
+	  //total=total+'<tr class=new-order_m_m_title><td><div style=float:left;padding-left:3px;><a href=javascript:void(0) onclick=closeorder_sec()><img src=./images/cancel.png height=50px width=50px></a></div><div style=text-align:center;font-size:1em;padding-top:3px;><font color="#FFFFFF">交易單</font></div></td></tr>';
+	  if(BetType=="B")
+	  {
+	  total=total+'<tr><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">类别:&nbsp;'+gamename+'</strong></td></tr>';
+	  total=total+'<tr><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">选项:&nbsp;<strong>'+marketname+'/'+selectname+'&nbsp;</strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">投注获利:&nbsp;<strong>'+Bet+'</strong>&nbsp;&nbsp;&nbsp;投注赔率:&nbsp;<strong>'+Rate+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">可贏金额:&nbsp;<strong>'+ssB+'</strong>&nbsp;&nbsp;&nbsp;风险值:&nbsp;<strong>'+Bet+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_RR_bottom_color_b><td colspan=4 height="80" align="left" valign="middle" style="padding-left:15px;">您在买'+marketname+'/'+selectname+'<br>若您赢了,您将赢得<font color=#00A200>' + ssB + '</font>金额<br>若您输了,则失去<font color=#FF0000>'+Bet+'</font>金额</td></tr>';	
+       	
+	  }
+	  /*
+	  else
+	  {
+	  
+	  total=total+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="font-weight:bolder;font-size:18px;text-align:center;color:#ffffff;height:20px;">确认注单</strong></td></tr>';
+	  total=total+'<tr class=trmid_B><td colspan=4 height="40" align="left" valign="middle" style="font-weight:bolder;height:20px;font-size:18px;background-color:#dedede;padding-left:0%;color:#000000;">类别:&nbsp;'+gamename+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B><td colspan=4 height="40" align="left" valign="middle" style="font-weight:bolder;height:20px;font-size:18px;background-color:#dedede;padding-left:0%;color:#0e5f9d;">选项:&nbsp;<strong>'+marketname+'/'+selectname+'&nbsp;</strong></td></tr>';
+	  
+	  total=total+'<tr class=trmid_B_B_sec><td width="30%">金額</td><td>获利%</td><td>预估获利</td></tr>';
+	  total=total+'<tr class=trmid_RR_bottom><td style="color:#000000;">'+Bet+'</td><td><font color=#ed1122>'+((Rate*100).toFixed(2))+'%</font></td><td style="color:#000000;">'+ss+'</td></tr>';	      		
+	  }
+	  total=total+'<tr class=new-order_m_m><td colspan=4><input class=sure type=button id=btnTest value=确定交易><input class=cancel type=button value=取消交易 onclick="closeorder()"></td></tr>';
+	  */
+	  else
+	  	{
+	  		var res = time.split("+");
+        var ress = decodeURIComponent(res[1]).split(":");
+        var retotal = res[0]+'｜'+ress[0]+':'+ress[1];
+    
+        var res = time.split("+");
+        var ress_f = decodeURIComponent(res[0]).split("-");
+        var ress = decodeURIComponent(res[1]).split(":");
+        
+        /*
+        if(gamename.length > 10)
+			   {
+			   	  var resname = gamename.split(" v ");
+			   	  var retotal = ress_f[1]+':'+ress_f[2]+'&nbsp;'+resname[0]+' v <br>'+ress[0]+':'+ress[1]+'&nbsp;'+resname[1];
+			   }
+			  else
+			   {
+			   	  var resname = gamename;
+			   	  var retotal = ress_f[1]+':'+ress_f[2]+'&nbsp;<span style=position:relative;top:15px;>'+resname+'</span><br>'+ress[0]+':'+ress[1];
+			   }
+			  */
+			  //var resname = gamename;
+			  var resname = gamename.split("v");
+	　    var retotal = ress_f[1]+'／'+ress_f[2]+'&nbsp;'+category+'<br>'+ress[0]+'：'+ress[1]+'&nbsp;'+resname[0]+'(主)&nbsp;v&nbsp;'+resname[1];
+		
+			   
+	  total=total+'<tr class=trmid_B><td colspan=3 height="30" align="left" valign="middle" style="background:url(./img/win_title_bg.png);background-size:480px 60px;padding-top:20px;font-weight:bolder;font-size:18px;text-align:center;color:#ffffff;height:40px;">下单资讯</strong></td></tr>';	  
+	  total=total+'<tr><td><table style=width:95%;margin-left:10px;>';
+	  
+	  //total=total+'<tr><td colspan=3 width="95%"><table width="100%"><tr style="margin-top:5px;" class=trmid_B><td width=20% style="padding-top:10px;"><div style="background-image:url(./img/tag_bg.png);background-repeat:no-repeat;background-size:90px 40px;vertical-align:middle;padding-left:5px;padding-top:10px;height:40px;">'+category+'</div></td>';
+	  //total=total+'<td width=55% style="vertical-align:middle;line-height:25px;">'+retotal+'</td>';
+	  //total=total+'<td width=25% style="vertical-align:middle;">'+commision+'</td></tr></table></tr>';
+	  
+	  total=total+'<tr class=trmid_B><td colspan=3 height="30" align="left" valign="middle" style="font-family:微軟正黑體;padding-top:10px;padding-left:30px;color:#ffffff;font-size:18px;width:100%;background-image:url(./img/table_title_bg.png);background-size:cover;line-height:25px;">'+retotal+'</td></tr>';
+	  total=total+'<tr><td colspan=4 width=95% style="background-color:#000a3d;vertical-align:middle;height:40px;padding-left:15px;">';	 
+	  total=total+'<strong>您正在&nbsp;<font color=#FF0000><span class=objection>反对</span></font>&nbsp;这场赛事结果为&nbsp;<font color=#FFBB00>'+marketname+'&nbsp;&nbsp;'+selectname+'</font>&nbsp;</b>'+commision+'<td></tr>';
+	
+	  total=total+'<tr class=trmid_B_B><td width="30%">金额</td><td>获利%</td><td>预估获利</td></tr>';
+	  total=total+'<tr class=trmid_RR_bottom style="color:#000000;"><td style="padding-top:20px;">'+Bet+'</td><td style="padding-top:20px;">'+((Rate*100).toFixed(2))+'%</td><td style="padding-top:20px;">'+thousandComma(ss)+'</td></tr>';
+	  total=total+'</table></td></tr>';
+	  
+	    }
+	  //total=total+'<tr class=new-order_m_m><td colspan=4 width=100% style="padding-left:80px;"><div style="position:absolute;color:#ffffff;left:270px;padding-top:10px;" onclick="closeorder()">取消交易</div><div style="position:absolute;color:#ffffff;left:120px;padding-top:10px;" id=btnTest>确定交易</div><img id=btnTest src=./img/btn_forget_normal.png>&nbsp;<img src=./img/btn_logout_normal.png onclick="closeorder()"></td>';
+    total=total+'<tr class=new-order_m_m><td colspan=4 width=100% style="font-family:微軟正黑體;padding-left:90px;">';
+	  total=total+'<button type="submit" id=btnTest class="btn_refill_order">确定交易</button>';
+	  total=total+'<button type="submit" onclick="closeorder()" class="btn_cancel_order">取消交易</button></td></tr>';
+	  //total=total+'<tr><td colspan=4 width=100% style="background-color:#000a3d;vertical-align:middle;height:40px;padding-left:15px;">';
+	  //total=total+'<strong>您正在&nbsp;<font color=#FF0000><span class=objection>反对</span></font>&nbsp;这场赛事结果为&nbsp;'+marketname+'&nbsp;/&nbsp;'+selectname+'&nbsp;</b>';
+	  total=total+'</table>';
+	 
+	  
+
+	//alert(Bet +'::'+ balance_money);
+	
+	if(parseFloat(Bet) > parseFloat(balance_money))
+	{
+	 swal({title: "错误讯息",text: "交易金额大于可用馀额!",confirmButtonText: "确定",customClass: 'twitter'});
+	 return;
+	}
+
+	
+	if(!sre.test(Bet))   
+       {    
+     swal({title: "错误讯息",text: "金额最多小数点2位!",confirmButtonText: "确定",customClass: 'twitter'});
+     //change_alert('#FF0000','Error','金額请勿有其他文字!','#FFFFFF');
+     //alert("金額请勿有其他文字!");
+     return;
+       }
+   
+    /* 
+  if (!ee.test(Bet))
+    {
+        //非正整數
+        alert("请输入正确注额");
+        return;
+    }
+   
+ */
+ if(Bet < 100 || Bet=="")
+  	{
+  		swal({title: "错误讯息",text: "金額请大于等于100",confirmButtonText: "确定",customClass: 'twitter'});
+  		//change_alert('#FF0000','Error','金額请大于1','#FFFFFF');
+  		//alert('金額请大于1');
+  		return;
+  	}
+
+ 
+ /*
+ if(!confirm(total))
+    {
+    	return false;
+    
+    }	
+ */
+
+var jimDatass = {handicap: handicap,inplay: inplay,selectname: selectname, time: time, gameid: gameid, markettype: markettype, gamename: gamename, marketname: marketname, Rate: Rate, Bet: Bet, name_st: name_st, BetType: BetType, MarketId: MarketId, SelectionId: SelectionId, betfairori: betfairori, percent: percent, chk: 'order', selectrateL1: selectrateL1, category:category, sel:sel, gc12:gc12}
+  	simple_ar.push(jimDatass);
+  	orderinfo_st = simple_ar;
+  	c2bet_st["c2betorder"]=orderinfo_st;
+ 	
+//jQuery('#movemore_ss', window.parent.document).html(total);
+  //parent.window.frames.leftmenu.jQuery('#order').html(total);
+  parent.window.frames.jQuery('#movemore_ss').html(total);
+
+jQuery("#btnclose").click(function() {  
+  //jQuery('#movemore_ss', window.parent.document).dialog("close");
+  //parent.window.frames.leftmenu.jQuery('#order').attr("disabled", false);
+  //jQuery('#movemore_ss', window.parent.document).attr("disabled", false);
+    parent.window.frames.jQuery('#movemore_ss').attr("disabled", false);
+    parent.window.frames.jQuery('#movemore_ss').html('');
+ });
+        
+jQuery("#btnTest").click(function() {	    	
+
+ 	//alert('T');
+ 	
+ 	
+ 	 var total='<table border="0" align="left" cellpadding="0" cellspacing="0" style="background:#244b8c;width:100%;color:#ffffff;">';
+	  
+	  if(BetType=="B")
+	  {
+	  total=total+'<tr class=trmid_B><td height="62" align="left" valign="middle" style="padding-left:10px;">...loading...</strong></td></tr>';
+	  }
+	  else
+	  {
+	  total=total+'<tr class=trmid_L><td height="62" align="left" valign="middle" style="padding-left:10px;">...loading...</strong></td></tr>';
+	  	
+	  }
+	  
+	  total=total+'<tr><td class="new-order_m_m"></td></tr></table>';
+	  
+ 	 jQuery.ajax({
+		type: 'POST',
+		url: './controler/session.php' ,
+		data: c2bet_st ,		
+		error: function(xhr) {
+			parent.window.frames.jQuery('#movemore_ss').html('<font color=#FF0000>网路忙线中，请稍后再试!错误代码:681</font>');
+			//alert('網路忙線中，請稍後再試!錯誤代碼:simp367');
+			return false;
+		},
+			
+		
+		beforeSend:function(response)
+		{
+			 
+		   //jQuery('#movemore_ss').css({"height":"auto"});
+		   //jQuery('#movemore_ss', window.parent.document).html(total); 	
+		     
+		     if(inplay=="1")
+		     {
+		     countdowntime = 10;
+		     countdown_ceo2();
+		     }
+         else
+         	{
+   	     parent.window.frames.jQuery('#movemore_ss').html(total);
+   	      }
+		 
+		}, 
+		
+		 
+		success: function(response) {
+			
+			  window.clearInterval(count_night);
+			  countdowntime=0;
+			  openallselwill(who,mid,encodeURI(category),gameid,gc12,encodeURI(gamename),time);
+			  //checkquota_orderfinish();
+			  //checkquota_st();
+			  jQuery('#selfmoney_reag').load("./controler/re_order_reorder.php");//無千分號
+			  jQuery('#selfmoney').load("./controler/re_order_login.php");//千分號顯示
+				parent.window.frames.jQuery('#movemore_ss').html(response); 
+				  
+		 }
+    
+	  	});
+	 
+	 
+	 
+	 //jQuery('#order_ss').html();
+	 //jQuery("#closeorder_st").hide();   
+	 //jQuery("#closeorder_st").hide();//關閉按鈕id
+   //lodinging(c2bet_st,categoryid,f,g,bettype,se2,secname,simname,straightNowPage,name2);
+ 
+ 
+ });
+  
+  
+   	/*
+  	jQuery.ajax({
+		type: 'POST',
+		url: './components/com_leftsimpless/order_write.php' ,
+		//url: './components/com_simple/order_test.php' ,
+		data: c2bet_st ,		
+		error: function(xhr) {
+			jQuery('#order_ss').html('<font color=#FF0000>網路忙線中，請稍後再試!錯誤代碼:simp139</font>');
+			//alert('網路忙線中，請稍後再試!錯誤代碼:simp140');
+			return false;
+		},
+			
+		
+		beforeSend:function(response)
+		{
+			 if(gg=="1")
+			 {
+			 countdowntime = 9;
+		   countdown_simple();		   
+		   }
+		   else
+		  {
+		  	
+		   jQuery('#order_ss').css({"height":"auto"});
+		   jQuery('#order_ss').html("<center><br><img src=./images/666/loading.gif><table height=10><tr><td></td></tr></table><font size=2 color=#000000>...處理中...</font><br></center>"); 	
+		  }    	
+		 
+		}, 
+		
+		 
+		success: function(response) {
+			jQuery('#order_ss').html(response);
+			countdowntime = 0;		   
+		  wa66quota();
+		  simplesreload_sec(categoryid,f,g,bettype,se2,secname,simname,straightNowPage,name2);
+		  
+		 }
+    
+	  });
+	  */
+  	//jQuery('#order').dialog( "close" );
+  	//window.setInterval("document.location.reload()", 2000);
+  	
+  }
+
+function getorder_appoint()
+  {
+    //alert(hh);
+  	var simple_ar = Array();
+  	var c2bet_st = new Object;
+  	var orderinfo_st = new Object;
+  	var ee = /^\d+$/;
+  	re = /^[0-9]+(\.)?$/;
+  	var MarketId = jQuery('#MarketId').val();
+  	var gameid = jQuery('#gameid').val();
+  	var SelectionId = jQuery('#SelectionId').val();
+  	var BetType = jQuery('#BetType').val();
+  	var name_st = jQuery('#name').val();
+  	var gamename = jQuery('#gamename').val();
+    var marketname = jQuery('#marketname_st').val();
+    var Rate = jQuery('#Rate').val();
+    var momey = jQuery('#momey').val();
+    var percent = jQuery('#percent').val();
+    var betfairori = jQuery('#betfairori').val();
+    var Bet = jQuery('#Bet').val();
+    var markettype = jQuery('#markettype').val();
+    var time = jQuery('#time').val();
+    var selectname = jQuery('#selectname').val();
+    var inplay = jQuery('#inplay').val();    
+    var handicap = jQuery('#handicap').val();
+    
+    var f_date1 = jQuery('#f_date1').val();
+    var f_date2 = jQuery('#f_date2').val();
+    
+    var range1 = jQuery('#range1').val();
+    var range2 = jQuery('#range2').val();
+    
+    var gc12 = jQuery('#gc12').val();
+    var mid = jQuery('#mid').val();
+    var who = jQuery('#who').val();
+    var mname = jQuery('#mname').val();
+    
+    var ssB = ((Bet)*(1-percent)*(range1-1)).toFixed(2); 
+    var ssB_2 = ((Bet)*(1-percent)*(range2-1)).toFixed(2);   
+    
+    var ss = ((Bet)*(range1-1)).toFixed(2);
+    var ss_2 = ((Bet)*(range2-1)).toFixed(2);
+    var hh = ((Bet)*(1-percent)).toFixed(2);
+    
+    
+    var total='<table border="0" align="left" cellpadding="0" cellspacing="0" class="secwin">';
+	  if(BetType=="B")
+	  {
+	  total=total+'<tr class=trmid_B><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">类别:&nbsp;'+gamename+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">选项:&nbsp;<strong>'+marketname+'/'+selectname+'&nbsp;<font color=#0063C6>(闲)</font></strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">投注注额:&nbsp;<strong>'+Bet+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">投注赔率区间:&nbsp;<strong>'+range1+'</strong>&nbsp;--&nbsp;<strong>'+range2+'</strong><td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">可赢点数区间:&nbsp;<strong>'+ssB+'&nbsp;--&nbsp;'+ssB_2+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">风险值區間:&nbsp;<strong>'+Bet+'&nbsp;--&nbsp;'+Bet+'</strong></td></tr>';	  
+	  //total=total+'<tr class=trmid_RR_bottom_color_b><td colspan=4 height="80" align="left" valign="middle" style="padding-left:15px;">您在买'+marketname+'/'+selectname+'<br>若您赢了,您将赢得<font color=#00A200>' + ssB + '</font>金额<br>若您输了,则失去<font color=#FF0000>'+Bet+'</font>金额</td></tr>';	       	
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">时间区间:&nbsp;<strong>'+f_date1+'</strong>&nbsp;--&nbsp;<strong>'+f_date2+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_RR_bottom_color_b><td colspan=4 height="80" align="left" valign="middle" style="padding-left:15px;">您在买'+marketname+'/'+selectname+'</td></tr>';	       	
+	  
+	  }
+	  else
+	  {
+	  total=total+'<tr class=trmid_B><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">类别:&nbsp;'+gamename+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">选项:&nbsp;<strong>'+marketname+'/'+selectname+'&nbsp;<font color=#FF0000>(庄)</font></strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">投注注额:&nbsp;<strong>'+Bet+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">投注赔率区间:&nbsp;<strong>'+range1+'</strong>&nbsp;--&nbsp;<strong>'+range2+'</strong><td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">可赢点数区间:&nbsp;<strong>'+hh+'&nbsp;--&nbsp;'+hh+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">风险值區間:&nbsp;<strong>'+ss+'&nbsp;--&nbsp;'+ss_2+'</strong></td></tr>';
+	  
+	  //total=total+'<tr class=trmid_RR_bottom_color_r><td colspan=4 height="80" align="left" valign="middle" style="padding-left:15px;">您在反对'+marketname+'/'+selectname+'会赢<br>若您赢了,您将赢得<font color=#00A200>'+hh+'</font>金额<br>若您输了,则失去<font color=#FF0000>'+ss+'</font>金额</td></tr>';	
+    total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">时间区间:&nbsp;<strong>'+f_date1+'</strong>&nbsp;--&nbsp;<strong>'+f_date2+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_RR_bottom_color_r><td colspan=4 height="80" align="left" valign="middle" style="padding-left:15px;">您在反对'+marketname+'/'+selectname+'会赢</td></tr>';	
+       		
+	  }
+	  //total=total+'<tr class=new-order_m_m><td><div id=btnTest>確定交易</div></td><td><a href=javascript:void(0) onclick="closeorder()">取消交易</a></td></tr></table>';
+	  total=total+'<tr class=new-order_m_m><td colspan=2><input type=button id=btnTest value=确定交易></td><td colspan=2><input type=button value=取消交易 onclick="closeorder()"></td></tr>';
+	
+	if (!ee.test(Bet))
+    {
+        //非正整數
+        alert("请输入正确注额");
+        return;
+    }  
+	
+	if(!re.test(Bet))   
+       {    
+     alert("注额请勿有小数点或是其他文字");
+     return;
+       }
+            
+ 
+ if(Bet < 1 || Bet=="")
+  	{
+  		alert('注额请大于1');
+  		return;
+  	}
+
+ 
+ /*
+ if(!confirm(total))
+    {
+    	return false;
+    
+    }	
+ */
+
+var jimDatass = {f_date1: decodeURI(f_date1),f_date2: decodeURI(f_date2),range1: range1,range2: range2,handicap: handicap,inplay: inplay,selectname: selectname, time: time, gameid: gameid, markettype: markettype, gamename: gamename, marketname: marketname, Rate: Rate, Bet: Bet, name_st: name_st, BetType: BetType, MarketId: MarketId, SelectionId: SelectionId, betfairori: betfairori, percent: percent}
+  	simple_ar.push(jimDatass);
+  	orderinfo_st = simple_ar;
+  	c2bet_st["c2betorder"]=orderinfo_st;
+ 	
+   //jQuery('#movemore_ss', window.parent.document).html(total);
+  //parent.window.frames.leftmenu.jQuery('#order').html(total);
+  jQuery('#order').html(total);
+
+jQuery("#btnclose").click(function() {  
+  //jQuery('#movemore_ss', window.parent.document).dialog("close");
+  //parent.window.frames.leftmenu.jQuery('#order').attr("disabled", false);
+  //jQuery('#movemore_ss', window.parent.document).attr("disabled", false);
+    jQuery('#order').attr("disabled", false);
+    jQuery('#order').html('');
+ });
+        
+jQuery('#btnTest').click(function() {	    	
+
+ 	
+ 	 var total='<table border="0" align="left" cellpadding="0" cellspacing="0" style="background:#e0e6e6;width:100%;color:#1f3e62;">';
+	  //total=total+'<tr class=new-order_m_m_title><td><div style=float:left;padding-left:3px;><a href=javascript:void(0) onclick=closeorder_sec()><img src=./images/cancel.png height=50px width=50px></a></div><div style=text-align:center;font-size:1em;padding-top:3px;><font color="#FFFFFF">交易單</font></div></td></tr>';
+	  if(BetType=="B")
+	  {
+	  total=total+'<tr class=trmid_B><td height="62" align="left" valign="middle" style="padding-left:10px;">...loading...</strong></td></tr>';
+	  }
+	  else
+	  {
+	  total=total+'<tr class=trmid_L><td height="62" align="left" valign="middle" style="padding-left:10px;">...loading...</strong></td></tr>';
+	  	
+	  }
+	  total=total+'<tr><td class="new-order_m_m"></td></tr></table>';
+	  
+ 	 jQuery.ajax({
+		type: 'POST',
+		url: './components/com_leftsimpless/php/orderresult_appoint.php' ,
+		data: c2bet_st ,		
+		error: function(xhr) {
+			jQuery('#order').html('<font color=#FF0000>网路忙线中，请稍后再试!错误代码:992</font>');
+			//alert('網路忙線中，請稍後再試!錯誤代碼:simp367');
+			return false;
+		},
+			
+		
+		beforeSend:function(response)
+		{
+			 
+		   //jQuery('#movemore_ss').css({"height":"auto"});
+		   //jQuery('#movemore_ss', window.parent.document).html(total); 	
+		     
+		     if(inplay=="1")
+		     {
+		     countdowntime = 10;
+		     countdown_ceo2();
+		     }
+         else
+         	{
+   	     jQuery('#order').html(total);
+   	      }
+		 
+		}, 
+		
+		 
+		success: function(response) {
+			//jQuery('#movemore_ss', window.parent.document).html(response);
+			  window.clearInterval(count_night);
+			  countdowntime=0;
+			  //openallselwill_sec(who,mid,encodeURI(gamename),gameid,gc12,encodeURI(mname),time);
+			  checkquota_orderfinish();
+			  //checkquota_st();
+				jQuery('#order').html(response); 
+		 }
+    
+	  	});
+	 	
+	 //jQuery('#order_ss').html();
+	 //jQuery("#closeorder_st").hide();   
+	 //jQuery("#closeorder_st").hide();//關閉按鈕id
+   //lodinging(c2bet_st,categoryid,f,g,bettype,se2,secname,simname,straightNowPage,name2);
+ 
+ 
+ });
+  
+  
+   	/*
+  	jQuery.ajax({
+		type: 'POST',
+		url: './components/com_leftsimpless/order_write.php' ,
+		//url: './components/com_simple/order_test.php' ,
+		data: c2bet_st ,		
+		error: function(xhr) {
+			jQuery('#order_ss').html('<font color=#FF0000>網路忙線中，請稍後再試!錯誤代碼:simp139</font>');
+			//alert('網路忙線中，請稍後再試!錯誤代碼:simp140');
+			return false;
+		},
+			
+		
+		beforeSend:function(response)
+		{
+			 if(gg=="1")
+			 {
+			 countdowntime = 9;
+		   countdown_simple();		   
+		   }
+		   else
+		  {
+		  	
+		   jQuery('#order_ss').css({"height":"auto"});
+		   jQuery('#order_ss').html("<center><br><img src=./images/666/loading.gif><table height=10><tr><td></td></tr></table><font size=2 color=#000000>...處理中...</font><br></center>"); 	
+		  }    	
+		 
+		}, 
+		
+		 
+		success: function(response) {
+			jQuery('#order_ss').html(response);
+			countdowntime = 0;		   
+		  wa66quota();
+		  simplesreload_sec(categoryid,f,g,bettype,se2,secname,simname,straightNowPage,name2);
+		  
+		 }
+    
+	  });
+	  */
+  	//jQuery('#order').dialog( "close" );
+  	//window.setInterval("document.location.reload()", 2000);
+  	
+  }
+  
+var count_night;
+function countdown_ceo2()
+{
+	countdowntime -= 1;
+	var img = "<img src=./components/com_main/images/28.gif>";
+	 if(countdowntime <= 0)
+	 	{
+	 	return false;
+	 	}
+	 else
+	 	{
+	 jQuery('#order').html("<font color=#FF0000><br><br>滚球倒数" + countdowntime + "秒</font>");
+	 	}
+  count_night = setTimeout("countdown_ceo2()", 1000);
+}
+
+function closeorder(a)
+{
+	if(a=='889')
+	{
+	  document.location.href="./controler/memberlogout.php"
+		return;
+	}
+	//alert('b');
+	//jQuery(this).dialog("close");
+	//alert('a_dd');
+	window.clearInterval(a_add);
+  a_add=0;
+  
+	 //parent.window.frames.jQuery("#movemore_ss").html('');
+	 //parent.window.frames.jQuery("#movemore_ss").dialog("close");
+	 //parent.window.frames.jQuery("#movemore_ss").html('');
+	 //jQuery('#movemore_ss', window.parent.document).html('');
+	 jQuery('#movemore_ss', window.parent.document).dialog("close");
+	 //jQuery('#movemore_ss', window.parent.document).html("");
+  //jQuery('#order').attr("disabled", false);
+  //jQuery('#order').html('');
+  //parent.window.frames.jQuery('#movemore_ss').attr("disabled", true);
+  //parent.window.frames.jQuery('#movemore_ss').html('ARTT');
+   //jQuery('#movemore_ss').dialog("close");
+   //window.document.getElementById("movemore_ss").style.visibility="hidden";
+   
+     //window.clearInterval(a_add);
+ 
+   
+}
+
+function orderinfo_link()
+{
+	window.location.href='./transaction.php';
+}
+
+function closeorder_sec()
+{
+	document.getElementById("movemore_ss").style.visibility="hidden";
+	jQuery('#movemore_ss', window.parent.document).attr("disabled", false);
+}
+
+function openleft(a)
+{
+	var ss = jQuery('#left1_10').css('display');
+
+	for(i=0; i < a; i++)
+		{	
+			jQuery('#lefttitle'+i+'').toggle();
+			for(j=0; j < 30; j++)
+			  {
+			  	jQuery('#left1_'+i+j+'').toggle();
+			    jQuery('#left2_'+i+j+'').toggle();
+			  }
+		}
+	if(ss=="none")
+	 {
+	jQuery('#openclose').html('open');
+   }
+   else
+   	{
+  jQuery('#openclose').html('close'); 		
+   	}
+}
+
+
+function reorderagain()
+  {
+    //alert('hh');
+  	var simple_ar = Array();
+  	var c2bet_st = new Object;
+  	var orderinfo_st = new Object;
+  	var ee = /^\d+$/;
+  	re = /^[0-9]+(\.)?$/;
+  	var MarketId = jQuery('#MarketId').val();
+  	var gameid = jQuery('#gameid').val();
+  	var SelectionId = jQuery('#SelectionId').val();
+  	var BetType = jQuery('#BetType').val();
+  	var name_st = jQuery('#name').val();
+  	var gamename = jQuery('#gamename').val();
+    var marketname = jQuery('#marketname_st').val();
+    var Rate = jQuery('#Rate').val();
+    var momey = jQuery('#momey').val();
+    var percent = jQuery('#percent').val();
+    var betfairori = jQuery('#betfairori').val();
+    var Bet = jQuery('#Bet').val();
+    var markettype = jQuery('#markettype').val();
+    var time = jQuery('#time').val();
+    var selectname = jQuery('#selectname').val();
+    var inplay = jQuery('#inplay').val();
+    var handicap = jQuery('#handicap').val();
+    var selectrateL1 = jQuery('#selectrateL1').val();
+    var gc12 = jQuery('#gc12').val();
+    var mid = jQuery('#mid').val();
+    var who = jQuery('#who').val();
+    var mname = jQuery('#mname').val();
+    var category = jQuery('#category').val();
+    
+    var ssB = ((Bet)*(1-percent)*(Rate-1)).toFixed(2);   
+    //var ss = ((Bet)*(Rate-1)).toFixed(2);
+    //var ss = ((Bet)*(Rate/100)).toFixed(2);
+    var ss = ((Bet)*(Rate)).toFixed(2);
+    var hh = ((Bet)*(1-percent)).toFixed(2);
+    
+    //alert(marketname);
+    //var total='***投注資訊***\n[賽事]'+a+'\n[類別]'+b+'\n[選項]'+c+'\n\n***注單資訊***\n[投注注額]'+Betorder+'\n[投注賠率]'+risk_st+'\n\n你確定下注?';
+    //var total='***投注資訊***\<br>[賽事]'+a+'\<br>[類別]'+b+'\<br>[選項]'+c+'\<br>\<br>***注單資訊***\<br>[投注注額]'+Betorder+'\<br>[投注賠率]'+risk_st+'\<br>\<br>你確定下注?';
+	  //total=total+'<br><br><input type=button value=取消 id=btnclose><input type=button value=確定 id=btnTest>';
+	//alert(Betorder+':'+sid);
+	  //var total='<table border="0" align="left" cellpadding="0" cellspacing="0" width=100%>';
+	  //total=total+'<tr class=new-order_m_m_title><td><div style=float:left;padding-left:3px;><a href=javascript:void(0) onclick=closeorder_sec()><img src=./images/cancel.png height=50px width=50px></a></div><div style=text-align:center;font-size:1em;padding-top:3px;><font color="#FFFFFF">交易單</font></div></td></tr>';
+	  /*
+	  if(BetType=="B")
+	  {
+	  total=total+'<tr><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">类别:&nbsp;'+gamename+'</strong></td></tr>';
+	  total=total+'<tr><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">选项:&nbsp;<strong>'+marketname+'/'+selectname+'&nbsp;</strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">投注获利:&nbsp;<strong>'+Bet+'</strong>&nbsp;&nbsp;&nbsp;投注赔率:&nbsp;<strong>'+Rate+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B_B_bottom_se><td colspan=4 height="40" align="left" valign="middle" style="padding-left:15px;">可贏金額:&nbsp;<strong>'+ssB+'</strong>&nbsp;&nbsp;&nbsp;风险值:&nbsp;<strong>'+Bet+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_RR_bottom_color_b><td colspan=4 height="80" align="left" valign="middle" style="padding-left:15px;">您在买'+marketname+'/'+selectname+'<br>若您赢了,您将赢得<font color=#00A200>' + ssB + '</font>金额<br>若您输了,则失去<font color=#FF0000>'+Bet+'</font>金额</td></tr>';	
+       	
+	  }
+	  else
+	  {
+	  total=total+'<tr class=trmid_B><td colspan=4 height="30" align="left" valign="middle" style="font-weight:bolder;font-size:18px;text-align:center;color:#ffffff;height:20px;">下單資訊</strong></td></tr>';
+	  total=total+'<tr class=trmid_B><td colspan=4 height="40" align="left" valign="middle" style="font-weight:bolder;height:20px;font-size:18px;background-color:#dedede;padding-left:0%;color:#000000;">类别:&nbsp;'+gamename+'</strong></td></tr>';
+	  total=total+'<tr class=trmid_B><td colspan=4 height="40" align="left" valign="middle" style="font-weight:bolder;height:20px;font-size:18px;background-color:#dedede;padding-left:0%;color:#0e5f9d;">选项:&nbsp;<strong>'+marketname+'/'+selectname+'&nbsp;</strong></td></tr>';
+	  
+	  total=total+'<tr class=trmid_B_B_sec><td width="30%">金額</td><td>获利%</td><td>投注获利</td></tr>';
+	  total=total+'<tr class=trmid_RR_bottom><td style="color:#000000;">'+Bet+'</td><td><font color=#ed1122>'+((Rate*100).toFixed(2))+'%</font></td><td style="color:#000000;">'+ss+'</td></tr>';	      		
+	  }
+	  total=total+'<tr class=new-order_m_m><td colspan=4><input class=sure type=button id=btnTest value=确定交易><input class=cancel type=button value=取消交易 onclick="closeorder()"></td></tr>';
+	  */
+	  
+	  
+	
+	/*
+	if((Betorder-0) > (sid-0))
+	{
+		alert("注額請勿大於盤面注額!");
+     return;
+	}
+	*/
+	
+	if(!re.test(Bet))   
+       {    
+     swal({title: "错误讯息",text: "注额请勿有小数点或是其他文字",confirmButtonText: "确定",customClass: 'twitter'});
+     //change_alert('#FF0000','Error','注额请勿有小数点或是其他文字','#FFFFFF');
+     //alert("注额请勿有小数点或是其他文字");
+     return;
+       }
+        
+  if (!ee.test(Bet))
+    {
+        swal({title: "错误讯息",text: "请输入正确注额",confirmButtonText: "确定",customClass: 'twitter'});
+        //change_alert('#FF0000','Error','请输入正确注额','#FFFFFF');
+        //alert("请输入正确注额");
+        return;
+    }
+    
+ 
+ if(Bet < 1 || Bet=="")
+  	{
+  		swal({title: "错误讯息",text: "金額请大于1",confirmButtonText: "确定",customClass: 'twitter'});
+  		//change_alert('#FF0000','Error','金額请大于1','#FFFFFF');
+  		//alert('注额请大于1');
+  		return;
+  	}
+
+ 
+ /*
+ if(!confirm(total))
+    {
+    	return false;
+    
+    }	
+ */
+
+var jimDatass = {handicap: handicap,inplay: inplay,selectname: selectname, time: decodeURI(time), gameid: gameid, markettype: markettype, gamename: gamename, marketname: marketname, Rate: Rate, Bet: Bet, BetType: BetType, name_st: name_st, MarketId: MarketId, SelectionId: SelectionId, betfairori: betfairori, percent: percent, chk: 'order', selectrateL1: selectrateL1, category:category, sel:'L1', gc12:gc12}
+  	simple_ar.push(jimDatass);
+  	orderinfo_st = simple_ar;
+  	c2bet_st["c2betorder"]=orderinfo_st;
+
+jQuery.ajax({
+		type: 'POST',
+		url: './controler/session.php' ,
+		data: c2bet_st ,		
+		error: function(xhr) {
+			parent.window.frames.jQuery('#movemore_ss').html('<font color=#FF0000>网路忙线中，请稍后再试!错误代码:681</font>');
+			//alert('網路忙線中，請稍後再試!錯誤代碼:simp367');
+			return false;
+		},
+			
+		
+		beforeSend:function(response)
+		{
+			 
+		   //jQuery('#movemore_ss').css({"height":"auto"});
+		   //jQuery('#movemore_ss', window.parent.document).html(total); 	
+		     
+		     parent.window.frames.jQuery('#movemore_ss').html('<br><font size=3px color=#FF0000>...loading...</font>');
+   	     
+		 
+		}, 
+		
+		 
+		success: function(response) {
+			  
+			  
+			//jQuery('#movemore_ss', window.parent.document).html(response);
+			  window.clearInterval(count_night);
+			     countdowntime=0;
+			     openallselwill(who,mid,encodeURI(category),gameid,gc12,encodeURI(gamename),time);
+			  //checkquota_orderfinish();
+			  //checkquota_st();
+				parent.window.frames.jQuery('#movemore_ss').html(response);
+				  
+		 }
+    
+});
+
+ 	
+//jQuery('#movemore_ss', window.parent.document).html(total);
+  //parent.window.frames.leftmenu.jQuery('#order').html(total);
+  //parent.window.frames.jQuery('#movemore_ss').html(total);
+
+/*
+jQuery("#btnclose").click(function() {  
+  //jQuery('#movemore_ss', window.parent.document).dialog("close");
+  //parent.window.frames.leftmenu.jQuery('#order').attr("disabled", false);
+  //jQuery('#movemore_ss', window.parent.document).attr("disabled", false);
+    parent.window.frames.jQuery('#movemore_ss').attr("disabled", false);
+    parent.window.frames.jQuery('#movemore_ss').html('');
+ });
+        
+jQuery('#btnTest').click(function() {	    	
+
+ 	
+ 	 var total='<table border="0" align="left" cellpadding="0" cellspacing="0" style="background:#e0e6e6;width:100%;color:#1f3e62;">';
+	  //total=total+'<tr class=new-order_m_m_title><td><div style=float:left;padding-left:3px;><a href=javascript:void(0) onclick=closeorder_sec()><img src=./images/cancel.png height=50px width=50px></a></div><div style=text-align:center;font-size:1em;padding-top:3px;><font color="#FFFFFF">交易單</font></div></td></tr>';
+	  if(BetType=="B")
+	  {
+	  total=total+'<tr class=trmid_B><td height="62" align="left" valign="middle" style="padding-left:10px;">...loading...</strong></td></tr>';
+	  }
+	  else
+	  {
+	  total=total+'<tr class=trmid_L><td height="62" align="left" valign="middle" style="padding-left:10px;">...loading...</strong></td></tr>';
+	  	
+	  }
+	  total=total+'<tr><td class="new-order_m_m"></td></tr></table>';
+	  
+ 	 jQuery.ajax({
+		type: 'POST',
+		url: './controler/session.php' ,
+		data: c2bet_st ,		
+		error: function(xhr) {
+			parent.window.frames.jQuery('#movemore_ss').html('<font color=#FF0000>网路忙线中，请稍后再试!错误代码:681</font>');
+			//alert('網路忙線中，請稍後再試!錯誤代碼:simp367');
+			return false;
+		},
+			
+		
+		beforeSend:function(response)
+		{
+			 
+		   //jQuery('#movemore_ss').css({"height":"auto"});
+		   //jQuery('#movemore_ss', window.parent.document).html(total); 	
+		     
+		     if(inplay=="1")
+		     {
+		     countdowntime = 10;
+		     countdown_ceo2();
+		     }
+         else
+         	{
+   	     parent.window.frames.jQuery('#movemore_ss').html(total);
+   	      }
+		 
+		}, 
+		
+		 
+		success: function(response) {
+			//jQuery('#movemore_ss', window.parent.document).html(response);
+			  window.clearInterval(count_night);
+			  countdowntime=0;
+			     openallselwill(who,mid,encodeURI(gamename),gameid,gc12,encodeURI(mname),time);
+			  //checkquota_orderfinish();
+			  //checkquota_st();
+				parent.window.frames.jQuery('#movemore_ss').html(response); 
+		 }
+    
+	  	});
+	 	
+	 //jQuery('#order_ss').html();
+	 //jQuery("#closeorder_st").hide();   
+	 //jQuery("#closeorder_st").hide();//關閉按鈕id
+   //lodinging(c2bet_st,categoryid,f,g,bettype,se2,secname,simname,straightNowPage,name2);
+ 
+ 
+ });
+*/
+  }
+
+
+function aboutrule(a)
+{
+/*无下注注单!*/
+var s = jQuery('#order').html();
+if(s=="") jQuery('#order').html('<table><tr><td></td></tr></table><table style="width:100%;"><tr><td style=height:10px;text-align:center;></td></tr><tr><td style=height:20px;padding-left:10px;>无下注注单!</td></tr><tr><td style=height:10px;text-align:center;></td></tr></table>');
+	
+	if(a=="1")
+	{
+
+jQuery('#order').attr("disabled", false);
+jQuery('#order').show();
+jQuery('#rule').hide();
+jQuery('#order_info a').css({'color':'#FFFFFF'});
+jQuery('#rule_anu a').css({'color':'#000000'});
+jQuery('#rule_anu').css({'background-image':'url(./images/666/orderinfo_w.png)'});
+jQuery('#order_info').css({'background-image':'url(./images/666/orderinfo.png)'});
+	}
+	else if(a=="2")
+	{
+		
+	}
+	else
+	{
+	
+	jQuery('#order').hide();
+	jQuery('#rule').show();
+	jQuery('#rule1').show();
+	jQuery('#rule_anu a').css({'color':'#FFFFFF'});
+	jQuery('#order_info a').css({'color':'#000000'});
+	jQuery('#order_info').css({'background-image':'url(./images/666/orderinfo_w.png)'});
+	jQuery('#rule_anu').css({'background-image':'url(./images/666/orderinfo.png)'});
+	}
+}
+
+function checkquota_orderfinish()
+{
+	//alert('Y');
+	jQuery.ajax({
+		type: 'GET',
+		url: './index3.php?option=com_quota&Itemid=101',
+		data: 'check=chkquota',
+		error: function(xhr) {
+			//alert('error');
+			return false;
+		},
+		beforeSend:function(response)
+		  {
+		  	//jQuery('#checkquota').html('...網路忙線中...');
+		  	//return false;
+		  },
+		success: function(response) {
+		//alert(response);
+		jQuery('#checkquota', window.parent.document).html(response);
+		}
+	});
+}
+
+function addnumber(obj)
+{
+	 if(obj < 10 ) return "0" +""+ obj;
+   else return obj;
+
+}

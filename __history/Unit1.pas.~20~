@@ -1,0 +1,475 @@
+﻿unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, System.Generics.Collections,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cefvcl, ceflib, Vcl.ExtCtrls, Vcl.StdCtrls,
+  Vcl.ComCtrls, Vcl.Buttons, Vcl.Samples.Spin, System.DateUtils;
+
+type
+  TReturn = record
+    Return_Result:boolean;
+    Return_Message:WideString;
+  end;
+type
+  TGame = record
+    GameID:string;
+    GameYear:string;
+    GameDateTime:string;
+    GameName:WideString;
+    LeagueName:WideString;
+    HomeTeam:string;
+    VisitTeam:string;
+    OddsURL:WideString;
+  end;
+
+type
+  TOdds = record
+    GameID:string;
+    OddsType:string;
+    OddsOption:string;
+    PR:string;
+    Stock:string;
+  end;
+
+
+type
+  TForm1 = class(TForm)
+    Panel1: TPanel;
+    StatusBar1: TStatusBar;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    mmo_message: TMemo;
+    lbledt_url: TLabeledEdit;
+    chrm1: TChromium;
+    btn_run: TBitBtn;
+    grp1: TGroupBox;
+    lbledt_user: TLabeledEdit;
+    lbledt_pwd: TLabeledEdit;
+    grp2: TGroupBox;
+    chk_autoupdate: TCheckBox;
+    se_update_interval: TSpinEdit;
+    lbl1: TLabel;
+    grp3: TGroupBox;
+    chk_allupdate: TCheckBox;
+    se_update_begin: TSpinEdit;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    se_update_end: TSpinEdit;
+    grp4: TGroupBox;
+    lbl4: TLabel;
+    cbb_line: TComboBox;
+    tmr_autorun: TTimer;
+    lbl_countdown: TLabel;
+    Button1: TButton;
+    procedure btn_runClick(Sender: TObject);
+    procedure chrm1AddressChange(Sender: TObject; const browser: ICefBrowser;
+      const frame: ICefFrame; const url: ustring);
+    procedure FormCreate(Sender: TObject);
+    procedure chrm1LoadEnd(Sender: TObject; const browser: ICefBrowser;
+      const frame: ICefFrame; httpStatusCode: Integer);
+    procedure cbb_lineChange(Sender: TObject);
+  private
+    { Private declarations }
+    function checkLoginData:TReturn;
+    procedure writeMessage(Content:WideString);
+    procedure doLogin(account:string; pwd:string);
+    procedure getGameList(const str:ustring);
+    procedure getOddsList(const str:ustring);
+  public
+    { Public declarations }
+    procedure setGameData(innerText:string; var game:TGame);
+    function getOddsURL(innerHTML:WideString):string;
+    function getPRData(innerText:WideString):string;
+    function getStockData(innerText:WideString):string;
+  end;
+
+var
+  Form1: TForm1;
+  GameList:TList<TGame>;
+  OddsList:TList<TOdds>;
+  TG777_USER: string;
+  TG777_PWD: string;
+  TG777_URL: string;
+  GameStartIndex,GameEndIndex:integer;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  MSHTML, ActiveX, ComObj;
+
+
+procedure TForm1.cbb_lineChange(Sender: TObject);
+begin
+  case cbb_line.ItemIndex of
+    0:TG777_URL:= 'http://w3.tg777.net/';
+    1: TG777_URL:= 'http://w2.tg777.net/';
+    2: TG777_URL:= 'http://w1.tg777.net/';
+    else TG777_URL:= 'http://w1.tg777.net/';
+  end;
+
+  chrm1.Load(TG777_URL);
+end;
+
+function TForm1.checkLoginData:TReturn;
+var
+  myreturn:TReturn;
+begin
+  //检查帐号是否为空
+  if Trim(lbledt_user.Text) = '' then
+  begin
+    myreturn.Return_Result:=False;
+    myreturn.Return_Message:='帐号不得为空白 !';
+    Result:=myreturn;
+  end
+  //检查密码是否为空
+  else if Trim(lbledt_pwd.Text) = '' then
+  begin
+    myreturn.Return_Result:=False;
+    myreturn.Return_Message:='密码不得为空白 !';
+    Result:=myreturn;
+  end
+  //帐号、密码都有填写
+  else
+  begin
+    myreturn.Return_Result:=True;
+    myreturn.Return_Message:='';
+    Result:=myreturn;
+  end;
+end;
+
+procedure TForm1.writeMessage(Content:WideString);
+begin
+  mmo_message.Lines.Add('['+formatdatetime('yyyy-mm-dd hh:nn:ss.zzz',Now)+'] '+Trim(Content));
+end;
+
+procedure TForm1.btn_runClick(Sender: TObject);
+begin
+  doLogin(lbledt_user.Text, lbledt_pwd.Text);
+end;
+
+procedure TForm1.chrm1AddressChange(Sender: TObject; const browser: ICefBrowser;
+  const frame: ICefFrame; const url: ustring);
+begin
+  lbledt_url.Text:=url;
+end;
+
+procedure TForm1.chrm1LoadEnd(Sender: TObject; const browser: ICefBrowser;
+  const frame: ICefFrame; httpStatusCode: Integer);
+begin
+  mmo_message.Lines.Add(frame.Url);
+  //首頁
+  if (Trim(frame.Url) = TG777_URL) then
+  begin
+    btn_run.Enabled:=True;
+  end;
+  //赛事列表
+  if (StringReplace(frame.Url, TG777_URL, '', [rfReplaceAll, rfIgnoreCase]) = 'controler/listmenu.php') then
+  begin
+    browser.GetFrame('leftmenu').GetSourceProc(getGameList);
+  end;
+  //盘口列表
+  if Pos('newopen.php', frame.Url) > 0 then
+  begin
+    browser.MainFrame.GetSourceProc(getOddsList);
+  end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  GameList:=TList<TGame>.Create;
+  OddsList:=TList<TOdds>.Create;
+  GameStartIndex:=0;
+  TG777_URL:='http://w1.tg777.net/';
+end;
+
+procedure TForm1.doLogin(account:string; pwd:string);
+var
+  js:string;
+begin
+  js:='document.getElementById("account").value = "'+Trim(account)+'"; '+
+      'document.getElementById("pwd").value = "'+Trim(pwd)+'"; '+
+      'document.getElementsByClassName("btn_login")[0].onclick();';
+  chrm1.Browser.MainFrame.ExecuteJavaScript(js, lbledt_url.Text, 0);
+end;
+
+procedure TForm1.getGameList(const str:ustring);
+var
+  Document:IHTMLDocument2;
+  Body:IHTMLElement2;
+  Tags:IHTMLElementCollection;
+  Tag:IHTMLElement;
+  i:integer;
+  v:Variant;
+  Game:TGame;
+begin
+  Document:=CreateComObject(Class_HTMLDOcument) as IHTMLDocument2;
+  GameList.Clear;
+  try
+    Document.designMode:='on';
+    while Document.readyState <> 'complete' do Application.ProcessMessages;
+    v:=VarArrayCreate([0, 0], varVariant);
+    v[0]:=str;
+    Document.write(PSafeArray(TVarData(v).VArray));
+    Document.designMode:='off';
+    while Document.readyState <> 'complete' do Application.ProcessMessages;
+    Body:=Document.body as IHTMLElement2;
+    Tags:=Body.getElementsByTagName('li');
+    for i:=0 to Pred(Tags.length) do
+    begin
+      Tag := Tags.item(i, EmptyParam) as IHTMLElement;
+      if AnsiSameText(Copy(Tag._className,1,3), 'two') then
+      begin
+        if (Tag.parentElement.parentElement._className = 'has-sub open') then
+        begin
+          Game.GameID:=Trim(StringReplace(Tag._className, 'two', '', [rfReplaceAll, rfIgnoreCase]));
+          Game.GameYear:=IntToStr(YearOf(Date()));
+          Game.OddsURL:=getOddsURL(Tag.innerHTML);
+          setGameData(Tag.innerText, Game);
+          GameList.Add(Game);
+          //mmo_message.Lines.Add(Game.GameID+', '+Game.GameDateTime+', '+Game.LeagueName+', '+Game.GameName+', '+Game.HomeTeam+', '+Game.VisitTeam);
+        end;
+      end;
+    end;
+  finally
+    Document:=nil;
+  end;
+
+  //Debug用
+  for i:=0 to GameList.Count-1 do
+  begin
+    //mmo_message.Lines.Add('['+IntToStr(i)+']: '+GameList[i].GameID+', '+GameList[i].GameYear+', '+GameList[i].GameDateTime+', '+GameList[i].LeagueName+', '+GameList[i].GameName+', '+GameList[i].OddsURL);
+  end;
+
+  //全部更新
+  if chk_allupdate.Checked then
+  begin
+    GameStartIndex:=0;
+    GameEndIndex:=GameList.Count - 1;
+  end
+  //部份更新
+  else
+  begin
+    //起始數筆小於全部筆數
+    if (se_update_begin.Value -1 <= GameList.Count) then
+    begin
+      GameStartIndex:=se_update_begin.Value - 1;
+      //結束筆數大於全部筆數
+      if (GameList.Count > se_update_end.Value -1) then
+      begin
+        GameEndIndex:=GameList.Count -1;
+      end
+      //結束筆數小於等於全部筆數
+      else
+      begin
+        GameEndIndex:=se_update_end.Value -1;
+      end;
+      chrm1.Load(GameList[GameStartIndex].OddsURL);
+    end
+    else
+    begin
+      writeMessage('更新范围起始笔数超过全部笔数('+IntToStr(GameList.Count)+') !!');
+    end;
+  end;
+end;
+
+procedure TForm1.getOddsList(const str:ustring);
+var
+  Document:IHTMLDocument2;
+  Body:IHTMLElement2;
+  Tags:IHTMLElementCollection;
+  Tag:IHTMLElement;
+  i:integer;
+  v:Variant;
+  Odds:TOdds;
+begin
+  if GameStartIndex <= GameEndIndex then
+  begin
+    Document:=CreateComObject(Class_HTMLDOcument) as IHTMLDocument2;
+    OddsList.Clear;
+    try
+      Document.designMode:='on';
+      while Document.readyState <> 'complete' do Application.ProcessMessages;
+      v:=VarArrayCreate([0, 0], varVariant);
+      v[0]:=str;
+      Document.write(PSafeArray(TVarData(v).VArray));
+      Document.designMode:='off';
+      while Document.readyState <> 'complete' do Application.ProcessMessages;
+      Body:=Document.body as IHTMLElement2;
+      Tags:=Body.getElementsByTagName('td');
+      i:=0;
+      while i < Tags.length - 1 do
+      begin
+        try
+          Odds.GameID:=GameList[GameStartIndex].GameID;
+          Tag:=Tags.item(i, EmptyParam) as IHTMLElement;
+          //波胆
+          if (AnsiSameText(Copy(Tag.id,1,7), 'arthur1')) and (Length(Tag.id) >= 8) and (Tag._className = 'openallcenter') and (Trim(Tag.innerText) <> '') then
+          begin
+            Odds.OddsType:='CS';
+            //选项
+            Odds.OddsOption:=Trim(Tag.innerText);
+            //获利
+            Inc(i);
+            Tag:=Tags.item(i, EmptyParam) as IHTMLElement;
+            Odds.PR:=getPRData(Tag.innerText);
+            //可交易量
+            Inc(i);
+            Tag:=Tags.item(i, EmptyParam) as IHTMLElement;
+            Odds.Stock:=getStockData(Tag.innerText);
+            OddsList.Add(Odds);
+          end
+          //上半场波胆
+          else if (AnsiSameText(Copy(Tag.id,1,7), 'arthur2')) and (Length(Tag.id) >= 8) and (Trim(Tag.innerText) <> '') then
+          begin
+            Odds.OddsType:='CSFF';
+            //选项
+            Odds.OddsOption:=Trim(Tag.innerText);
+            //获利
+            Inc(i);
+            Tag:=Tags.item(i, EmptyParam) as IHTMLElement;
+            Odds.PR:=getPRData(Tag.innerText);
+            //可交易量
+            Inc(i);
+            Tag:=Tags.item(i, EmptyParam) as IHTMLElement;
+            Odds.Stock:=getStockData(Tag.innerText);
+            OddsList.Add(Odds);
+          end
+          //总得分
+          else if (AnsiSameText(Copy(Tag.id,1,7), 'arthur3')) and (Length(Tag.id) >= 8) and (Trim(Tag.innerText) <> '') then
+          begin
+            Odds.OddsType:='TS';
+            //选项
+            Odds.OddsOption:=Trim(Tag.innerText);
+            //获利
+            Inc(i);
+            Tag:=Tags.item(i, EmptyParam) as IHTMLElement;
+            Odds.PR:=getPRData(Tag.innerText);
+            //可交易量
+            Inc(i);
+            Tag:=Tags.item(i, EmptyParam) as IHTMLElement;
+            Odds.Stock:=getStockData(Tag.innerText);
+            OddsList.Add(Odds);
+          end
+          //首入球时间
+          else if AnsiSameText(Copy(Tag.id,1,6), 'arthur') and (Length(Tag.id) = 7) and (Trim(Tag.innerText) <> '') then
+          begin
+            Odds.OddsType:='FGT';
+            //选项
+            Odds.OddsOption:=Trim(Tag.innerText);
+            //获利
+            Inc(i);
+            Tag:=Tags.item(i, EmptyParam) as IHTMLElement;
+            Odds.PR:=getPRData(Tag.innerText);
+            //可交易量
+            Inc(i);
+            Tag:=Tags.item(i, EmptyParam) as IHTMLElement;
+            Odds.Stock:=getStockData(Tag.innerText);
+            OddsList.Add(Odds);
+          end;
+        finally
+          Inc(i);
+        end;
+      end;
+    finally
+      Document:=nil;
+      Inc(GameStartIndex);
+      mmo_message.Lines.Add('第'+IntToStr(GameStartIndex)+'笔已经处理完毕 !');
+      chrm1.Load(GameList[GameStartIndex].OddsURL);
+    end;
+    //debug用
+    //for i := 0 to OddsList.Count - 1 do
+    //begin
+    //  mmo_message.Lines.Add(IntToStr(i)+': '+OddsList[i].GameID+', '+OddsList[i].OddsType+', '+OddsList[i].OddsOption+', '+OddsList[i].PR+', '+OddsList[i].Stock);
+    //end;
+  end;
+end;
+
+procedure TForm1.setGameData(innerText:string; var game:TGame);
+var
+  sl,sl2:TStringList;
+begin
+  sl:=TStringList.Create;
+  sl2:=TStringList.Create;
+  try
+    sl.StrictDelimiter:=True;
+    sl.Delimiter:=#13;
+    sl.DelimitedText:=innerText;
+    if sl.Count = 2 then
+    begin
+      //第一行
+      sl2.StrictDelimiter:=True;
+      sl2.Delimiter:=' ';
+      sl2.DelimitedText:=Trim(sl[0]);
+      game.GameDateTime:=Trim(sl2[0])+' '+Trim(sl2[1]);
+      game.LeagueName:=Trim(sl2[3]);
+      //第二行
+      sl2.StrictDelimiter:=True;
+      sl2.Delimiter:=' ';
+      sl2.DelimitedText:=Trim(sl[1]);
+      game.GameName:=Trim(sl[1]);
+      game.HomeTeam:=Trim(sl2[0]);
+      game.VisitTeam:=Trim(sl2[2]);
+    end;
+  finally
+    sl.Destroy;
+    sl2.Destroy;
+  end;
+end;
+
+function TForm1.getOddsURL(innerHTML:WideString):string;
+var
+  tempstring:WideString;
+  a2,a1,a,c,d,f,h:WideString;
+  sl:TStringList;
+begin
+  try
+    sl:=TStringList.Create;
+    tempstring:=Copy(innerHTML, Pos('(' , innerHTML) + 1, Pos(')', innerHTML) - Pos('(', innerHTML) - 1);
+    sl.StrictDelimiter:=True;
+    sl.Delimiter:=',';
+    sl.DelimitedText:=tempstring;
+    a2:='mid='+sl[0];
+    a1:='name='+sl[1];
+    a:='gameid='+sl[2];
+    c:=sl[3];
+    d:='gc12='+sl[4];
+    f:='gamename='+sl[5];
+    h:='time='+sl[6];
+    tempstring:=TG777_URL+'controler/newopen.php?'+a2+'&'+a1+'&'+a+'&'+d+'&'+f+'&'+h;
+  finally
+    sl.Destroy;
+  end;
+
+  Result:=tempstring;
+end;
+
+function TForm1.getPRData(innerText:WideString):string;
+begin
+  if Trim(innerText) <> '' then
+  begin
+    Result:=StringReplace(Trim(innerText), '%', '', [rfReplaceAll, rfIgnoreCase]);
+  end
+  else
+  begin
+    Result:='';
+  end;
+end;
+
+function TForm1.getStockData(innerText:WideString):string;
+begin
+  if Trim(innerText) <> '' then
+  begin
+    Result:=StringReplace(Trim(innerText), '￥', '', [rfReplaceAll, rfIgnoreCase]);
+  end
+  else
+  begin
+    Result:='';
+  end;
+end;
+
+
+end.
